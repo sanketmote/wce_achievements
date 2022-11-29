@@ -7,7 +7,7 @@ import Main from "../main/Main";
 import AdminManagement from "../adminManagement/AdminManagement";
 import Spam from "../spamManagement/Spam";
 import UsersManagement from "../usersManagement/UsersManagement";
-
+import ExportAchievement from "../exportAchievement/exportAchievement";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const Sidebar = () => {
       {adminMenu === 2 && <AdminManagement />}
       {adminMenu === 3 && <Spam />}
       {adminMenu === 4 && <UsersManagement />}
+      {adminMenu === 5 && <ExportAchievement />}
 
       <div className="sidebar_responsive" id="sidebar">
         <div className="sidebar__title">
@@ -45,6 +46,15 @@ const Sidebar = () => {
             <i className="fa fa-lock" aria-hidden="true"></i>
             <a href="#">Admin Management</a>
           </div>
+
+          <div
+            className={`sidebar__link ${adminMenu === 5 && "active_menu_link"}`}
+            onClick={() => setAdminMenu(5)}
+          >
+            <i className="fa fa-file-pdf"></i>
+            <a href="#">Export Achievements</a>
+          </div>
+
           <div
             className={`sidebar__link ${adminMenu === 3 && "active_menu_link"}`}
             onClick={() => setAdminMenu(3)}
@@ -52,6 +62,7 @@ const Sidebar = () => {
             <i className="fa fa-ban"></i>
             <a href="#">Spams Management</a>
           </div>
+
           <div
             className={`sidebar__link ${adminMenu === 4 && "active_menu_link"}`}
             onClick={() => setAdminMenu(4)}
@@ -59,6 +70,7 @@ const Sidebar = () => {
             <i className="fa fa-wrench"></i>
             <a href="#">Users Management</a>
           </div>
+
           <div className="sidebar__link">
             <i className="fa fa-archive"></i>
             <a href="#">xyz</a>
