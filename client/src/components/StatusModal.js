@@ -17,7 +17,7 @@ const Field = ({ label, id, error, ...rest }) => (
 
 );
 
-const TextField = ({ label, id, error, ...rest }) => (
+const TextField = ({ label, id, error,theme, ...rest }) => (
   <div>
     <label htmlFor={id}>{label}</label>
     <textarea
@@ -191,6 +191,7 @@ const StatusModal = () => {
             required
             placeholder={`Presented Paper In International Conference on Artificial Intelligence: Advances and Applications ICAIAA-2019`}
             error={errors.content}
+            theme={theme}
           />
           <Field
             label="Enter College / Event Place (At) "
