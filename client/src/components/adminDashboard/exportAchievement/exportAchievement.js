@@ -6,10 +6,9 @@ import { PDFViewer, Page, Document, StyleSheet, Image, Text } from "@react-pdf/r
 import {
     POST_TYPES
 } from "../../../redux/actions/postAction";
-import logo from "../../../images/logo.png";
 
 import PDFHeader from './generatePDF/Header'
-
+import Body from './generatePDF/Body'
 
 
 const styles = StyleSheet.create({
@@ -41,7 +40,10 @@ const ExportAchievement = () => {
     const dispatch = useDispatch();
 
     const [load, setLoad] = useState(false);
-
+    if(homePosts.posts.length > 0) {
+        console.log(homePosts.posts)
+    }
+    
     const handleLoadMore = async () => {
         setLoad(true);
         const res = await getDataAPI(`posts?limit=${homePosts.page * 9}`, auth.token);
@@ -58,6 +60,11 @@ const ExportAchievement = () => {
                             <Document>
                                 <Page size="A4" style={styles.page}>
                                     <PDFHeader title={'Invoice'}/>
+                                    {homePosts.posts.map((item,index)=>{
+                                        console.log(item)
+                                        return(<Body name={item.name} description={item.content + " at " + item.at} date={item.date} link={item.images[0].url}/>)
+                                    })}
+                                    {/* <Body name={"Prof. Sunil Deshpande (Electronics Dept)"} description={" "} date="" link={"https://react-pdf.org/images/logo.png"}/> */}
                                 </Page>
                             </Document>
                         </PDFViewer>
