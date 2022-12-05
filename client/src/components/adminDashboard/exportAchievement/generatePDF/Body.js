@@ -2,6 +2,15 @@
 import React, { Fragment } from 'react';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
+const convert = (str) => {
+    var date = new Date(str),
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+    const date1 = new Date([date.getFullYear(), mnth, day].join("-"));
+
+    const timestamp = date1.getTime();
+    return timestamp;
+}
 const styles = StyleSheet.create({
     body: {
         paddingTop: 40,
@@ -73,7 +82,7 @@ const Body = ({name,description,date,link}) => (
 
         <Text style={styles.desc}>{description}
         </Text>
-        <Text style={styles.date}>On {date}</Text>
+        <Text style={styles.date}>On {convert(date[0])}</Text>
 
         <Image style={styles.image} src={link} />
 

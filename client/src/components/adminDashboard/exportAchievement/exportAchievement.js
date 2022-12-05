@@ -35,6 +35,23 @@ const styles = StyleSheet.create({
     },
 });
 
+const convert = (str) => {
+    var date = new Date(str),
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+    const date1 = new Date([date.getFullYear(), mnth, day].join("-"));
+
+    const timestamp = date1.getTime();
+    return timestamp;
+}
+
+const convert1 = (str) => {
+    var date = new Date(str),
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+  
+    return [date.getFullYear(), mnth, day].join("-");
+}
 
 const ExportAchievement = () => {
     const { auth, admin, socket, homePosts, theme } = useSelector((state) => state);
@@ -62,13 +79,15 @@ const ExportAchievement = () => {
                     <br />
                     Apply Filter :
                     <br />
-                    <h5 style={{ padding: "15px"}}>
+                    <h5 style={{ padding: "15px" }}>
 
-                    <label>
-                        Select Range <DateRangePicker placeholder="Select Date" onChange={(e) => { console.log(e); setMin(e[0]); setMax(e[1]); }} />
-                    </label>
+                        <label>
+                            Select Range <DateRangePicker placeholder="Select Date" onChange={(e) => {
+                                setMin(convert(e[0])); setMax(convert(e[1]));
+                            }} />
+                        </label>
                     </h5>
-                   
+
                 </div>
 
 
@@ -80,9 +99,9 @@ const ExportAchievement = () => {
                             <Document>
                                 <Page size="A4" style={styles.page}>
                                     <PDFHeader title={'Invoice'} />
-                                    {homePosts.posts.filter(item => (item.timeStamp * 1000) >= min && (item.timeStamp * 1000) <= max).map((item) => {
+                                    {homePosts.posts.filter(item => (convert(item.date[0])) >= min && (convert(item.date[0])) <= max).map((item) => {
                                         console.log(item)
-                                        return (<Body name={item.name} description={item.content + " at " + item.at} date={item.date} link={item.images[0].url} />)
+                                        return (<Body name={item.name} description={item.content + " at " + item.at} date={convert1(item.date[0])} link={item.images[0].url} />)
                                     })}
                                     {/* <Body name={"Prof. Sunil Deshpande (Electronics Dept)"} description={" "} date="" link={"https://react-pdf.org/images/logo.png"}/> */}
                                 </Page>

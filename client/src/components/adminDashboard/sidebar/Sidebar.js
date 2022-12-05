@@ -20,7 +20,7 @@ const Sidebar = () => {
       {adminMenu === 1 && <Main />}
       {adminMenu === 2 && <AdminManagement />}
       {adminMenu === 3 && <Spam />}
-      {adminMenu === 4 && <UsersManagement />}
+      {/* {adminMenu === 4 && <UsersManagement />} */}
       {adminMenu === 5 && <VerifyUserPosts />}
       {adminMenu === 6 && <ExportAchievement />}
 
@@ -64,14 +64,14 @@ const Sidebar = () => {
             <i className="fa fa-ban"></i>
             <a href="#">Spams Management</a>
           </div>
-
+{/* 
           <div
             className={`sidebar__link ${adminMenu === 4 && "active_menu_link"}`}
             onClick={() => setAdminMenu(4)}
           >
             <i className="fa fa-wrench"></i>
             <a href="#">Users Management</a>
-          </div>
+          </div> */}
 
           <div
             className={`sidebar__link ${adminMenu === 5 && "active_menu_link"}`}
@@ -81,14 +81,14 @@ const Sidebar = () => {
             <a href="#">Verify User Posts</a>
           </div>
 
-          <div className="sidebar__link">
+          {/* <div className="sidebar__link">
             <i className="fa fa-archive"></i>
             <a href="#">xyz</a>
           </div>
           <div className="sidebar__link">
             <i className="fa fa-handshake-o"></i>
             <a href="#">xyz</a>
-          </div>
+          </div> */}
 
           <div className="sidebar__logout">
             <i className="fa fa-power-off"></i>
