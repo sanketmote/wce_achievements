@@ -1,28 +1,42 @@
-import React, { useEffect } from "react";
-import "../spamManagement/Spam.css";
-import { useDispatch, useSelector } from "react-redux";
-import ContentList from "../ContentList";
-import { getSpamPosts } from '../../../redux/actions/adminAction';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import PostCard from "../../../components/PostCard1";
+import LoadIcon from "../../../images/loading.gif";
+import LoadMoreBtn from "../../../components/LoadMoreBtn";
+import { getDataAPI } from "../../../utils/fetchData";
+import { POST_TYPES } from "../../../redux/actions/postAction";
 
 const VerifyUserPosts = () => {
-  const { auth, admin } = useSelector((state) => state);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getSpamPosts(auth.token));
-  }, [dispatch, auth.token])
-
-
+    const { homePosts, auth, theme } = useSelector((state) => state);
+    const dispatch =  useDispatch();
+  
+    const [load, setLoad] = useState(false);
+  
+    const handleLoadMore = async () => {
+      setLoad(true);
+      const res = await getDataAPI(`posts?limit=${homePosts.page * 9}`, auth.token);
+      console.log(res)
+      dispatch({ type: POST_TYPES.GET_POSTS, payload: {...res.data, page: homePosts.page + 1 } });
+      setLoad(false);
+    };
   return (
     <div className="main_admin">
       <div className="main__container">
-        <div className="main__title">
-          <div className="main__greeting">
-            <h1>Hello {auth.user.username}</h1>
-            <p>Spam Dashboard</p>
-          </div>
-        </div>
-        <div className="spam">
-          <ContentList content={admin.spam_posts} />
+        <div className="posts">
+        {homePosts.posts.map((post) => (
+            <PostCard key={post._id} post={post} theme={theme} />
+        ))}
+
+        {load && (
+            <img src={LoadIcon} alt="Loading..." className="d-block mx-auto" />
+        )}
+
+        <LoadMoreBtn
+            result={homePosts.result}
+            page={homePosts.page}
+            load={load}
+            handleLoadMore={handleLoadMore}
+        />
         </div>
       </div>
     </div>
@@ -30,3 +44,4 @@ const VerifyUserPosts = () => {
 };
 
 export default VerifyUserPosts;
+ 
