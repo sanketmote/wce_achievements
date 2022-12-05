@@ -340,13 +340,13 @@ export const verify = ({ post, newComment, auth, socket }) => async (dispatch) =
       auth.token
     );
 
-    dispatch({ type: POST_TYPES.verify, payload: res.data.verify });
-    dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: POST_TYPES.verify, payload: res.msg });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.msg } });
   } catch (err) {
     dispatch({
       type: GLOBALTYPES.ALERT,
       payload: {
-        error: err.response.data.msg,
+        error: err.msg,
       },
     });
   }

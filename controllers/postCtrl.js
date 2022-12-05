@@ -358,7 +358,7 @@ const postCtrl = {
         }
       ).then((data) => {
         res.status(200).json({
-          msg: "Post updated successfully."
+          msg: "Post Verified successfully."
         })
       })
       
