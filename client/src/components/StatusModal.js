@@ -7,11 +7,12 @@ import { imageShow, videoShow } from "../utils/mediaShow";
 import { useForm } from 'react-cool-form'
 import { DateRangePicker } from 'rsuite';
 import "rsuite/dist/rsuite.css";
+import { MultiSelect } from "react-multi-select-component";
 
 const Field = ({ label, id, error, ...rest }) => (
   <>
-    <div className="form-group " id={id+"1"} ng-class={"{'not-empty': "+ id+".length}"}>
-      <input id={id} {...rest} className="form-control" ng-model={id}/>
+    <div className="form-group " id={id + "1"} ng-class={"{'not-empty': " + id + ".length}"}>
+      <input id={id} {...rest} className="form-control" ng-model={id} />
       <label htmlFor={id} className="animated-label">{label}</label>
     </div>
     {error && <p>{error}</p>}
@@ -19,7 +20,13 @@ const Field = ({ label, id, error, ...rest }) => (
 
 );
 
-const TextField = ({ label, id, error,theme, ...rest }) => (
+const options = [
+  { label: "Sport", value: "sport" },
+  { label: "Educational", value: "edu" },
+  { label: "Other", value: "other"},
+];
+
+const TextField = ({ label, id, error, theme, ...rest }) => (
   <div>
     <label htmlFor={id}>{label}</label>
     <textarea
@@ -44,6 +51,7 @@ const StatusModal = () => {
   const [content, setContent] = useState("");
   const [at, setAt] = useState("");
   const [date, setDate] = useState([]);
+  const [selected, setSelected] = useState([]);
 
   const [images, setImages] = useState([]);
   const [stream, setStream] = useState(false);
@@ -120,12 +128,12 @@ const StatusModal = () => {
       });
     }
 
-    
+
 
     if (status.onEdit) {
-      dispatch(updatePost({ name,at,date,content, images, auth, status }));
+      dispatch(updatePost({ name, at, date, content, images, auth, status,selected }));
     } else {
-      dispatch(createPost({ name,at,date,content, images, auth, socket }));
+      dispatch(createPost({ name, at, date, content, images, auth, socket,selected }));
     }
     setContent("");
     setImages([]);
@@ -158,7 +166,7 @@ const StatusModal = () => {
 
   return (
     <div className="status_modal">
-      <form  onSubmit={handleSubmit} className="custom-form">
+      <form onSubmit={handleSubmit} className="custom-form">
         <div className="status_header">
           <h5 className="m-0">Add Your Achievement</h5>
           <span
@@ -175,9 +183,9 @@ const StatusModal = () => {
             id="name"
             placeholder="Enter Name"
             name="name"
-            onChange={(e) =>{
-              name.length > 0?document.getElementById("name1").className = "form-group not-empty ":document.getElementById("name1").className = "form-group";
-               setName(e.target.value)
+            onChange={(e) => {
+              name.length > 0 ? document.getElementById("name1").className = "form-group not-empty " : document.getElementById("name1").className = "form-group";
+              setName(e.target.value)
             }}
             value={name}
             // Support built-in validation
@@ -201,7 +209,7 @@ const StatusModal = () => {
             placeholder="Enter College / Event Place "
             name="at"
             onChange={(e) => {
-              at.length > 0?document.getElementById("at1").className = "form-group not-empty ":document.getElementById("at1").className = "form-group";
+              at.length > 0 ? document.getElementById("at1").className = "form-group not-empty " : document.getElementById("at1").className = "form-group";
               setAt(e.target.value)
             }}
             value={at}
@@ -227,8 +235,17 @@ const StatusModal = () => {
             error={errors.date}
           /> */}
           <br />
-          <DateRangePicker placeholder="Select Event Date" onChange={(e) => {console.log(e);setDate(e)}} />
+          <DateRangePicker placeholder="Select Event Date" onChange={(e) => { console.log(e); setDate(e) }} />
 
+          <br />
+          <br />
+
+          <MultiSelect
+            options={options}
+            value={selected}
+            onChange={setSelected}
+            labelledBy="Select Achievement Type"
+          />
 
           <div className="d-flex">
             <div className="flex-fill"></div>

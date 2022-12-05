@@ -7,6 +7,7 @@ const postSchema = new Schema(
     content: String,
     name: String,
     at: String,
+    type: String,
     date: {
       type: Array,
       required: true,

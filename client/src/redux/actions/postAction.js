@@ -17,7 +17,7 @@ export const POST_TYPES = {
   adminposts: "adminposts"
 };
 
-export const createPost = ({ name, at, date, content, images, auth, socket }) => async dispatch => {
+export const createPost = ({ name, at, date, content, images, auth, socket,selected }) => async dispatch => {
   let media = [];
 
   try {
@@ -27,7 +27,7 @@ export const createPost = ({ name, at, date, content, images, auth, socket }) =>
 
     if (images.length > 0) {
       await imageUpload(images).then(async (media) => {
-        const res = await postDataAPI('posts', { name, at, date, content, images: media }, auth.token);
+        const res = await postDataAPI('posts', { name, at, date, content,type:selected,images: media }, auth.token);
 
         console.log(res, content)
 
@@ -126,7 +126,7 @@ export const getAdminPosts = (token) => async dispatch => {
   }
 }
 
-export const updatePost = ({ name, at, date, content, images, auth, status }) => async (dispatch) => {
+export const updatePost = ({ name, at, date, content, images, auth, status,selected }) => async (dispatch) => {
   let media = [];
   const imgNewUrl = images.filter(img => !img.url);
   const imgOldUrl = images.filter(img => img.url);
@@ -140,7 +140,7 @@ export const updatePost = ({ name, at, date, content, images, auth, status }) =>
     }
     const res = await patchDataAPI(
       `post/${status._id}`,
-      { name, at, date, content, images: [...imgOldUrl, ...media] },
+      { name, at, date, content, type:selected, images: [...imgOldUrl, ...media] },
       auth.token
     );
 
