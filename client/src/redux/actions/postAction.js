@@ -13,6 +13,8 @@ export const POST_TYPES = {
   DELETE_POST: "DELETE_POST",
   REPORT_POST: "REPORT_POST",
   SAVE_POST: "SAVE_POST",
+  VERIFY: "VERIFY",
+  adminposts: "adminposts"
 };
 
 export const createPost = ({ name, at, date, content, images, auth, socket }) => async dispatch => {
@@ -97,6 +99,32 @@ export const getPosts = (token) => async dispatch => {
   }
 }
 
+export const getAdminPosts = (token) => async dispatch => {
+  try {
+    dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
+    getDataAPI('adminposts', token).then((res) => {
+      console.log(res.data);
+      dispatch({ type: POST_TYPES.adminposts, payload: { ...res.data, page: 2 } });
+
+      dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
+    }).catch((err) => {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          error: err,
+        },
+      });
+    })
+
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+}
 
 export const updatePost = ({ name, at, date, content, images, auth, status }) => async (dispatch) => {
   let media = [];
@@ -289,6 +317,31 @@ export const unSavePost = ({ post, auth }) => async (dispatch) => {
 
   try {
     await patchDataAPI(`unSavePost/${post._id}`, null, auth.token);
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+};
+
+export const verify = ({ post, newComment, auth, socket }) => async (dispatch) => {
+
+  console.log(post)
+  console.log(post._id)
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+    const res = await patchDataAPI(
+      `verifyUser/${post._id}`,
+      {},
+      auth.token
+    );
+
+    dispatch({ type: POST_TYPES.verify, payload: res.data.verify });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
   } catch (err) {
     dispatch({
       type: GLOBALTYPES.ALERT,

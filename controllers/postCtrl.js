@@ -2,16 +2,16 @@ const Posts = require("../models/postModel");
 const Comments = require("../models/commentModel");
 const Users = require("../models/userModel");
 
-class APIfeatures  {
-  constructor(query, queryString){
+class APIfeatures {
+  constructor(query, queryString) {
     this.query = query;
     this.queryString = queryString;
   }
 
-  paginating(){
-    const page = this.queryString.page * 1 || 1; 
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
     const limit = this.queryString.limit * 1 || 9;
-    const skip = (page -1) * limit; 
+    const skip = (page - 1) * limit;
     this.query = this.query.skip(skip).limit(limit);
     return this;
   }
@@ -20,8 +20,8 @@ class APIfeatures  {
 const postCtrl = {
   createPost: async (req, res) => {
     try {
-      const { name,at,date,content, images } = req.body;
-      console.log(name,at,date,content)
+      const { name, at, date, content, images } = req.body;
+      console.log(name, at, date, content)
       if (images.length === 0) {
         return res.status(400).json({ msg: "Please add photo(s)" });
       }
@@ -36,12 +36,12 @@ const postCtrl = {
       });
       await newPost.save();
 
-      res.json({ 
-        msg: "Post created successfully.", 
+      res.json({
+        msg: "Post created successfully.",
         newPost: {
           ...newPost._doc,
           user: req.user
-        } 
+        }
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -51,7 +51,7 @@ const postCtrl = {
   getPosts: async (req, res) => {
     try {
       const features = new APIfeatures(
-        Posts.find({}),
+        Posts.find(),
         req.query
       ).paginating();
       // console.log(req.query,features)
@@ -78,8 +78,8 @@ const postCtrl = {
 
   updatePost: async (req, res) => {
     try {
-      const { name,at,date,content, images } = req.body;
-      console.log(name,at,date,content)
+      const { name, at, date, content, images } = req.body;
+      console.log(name, at, date, content)
       const post = await Posts.findOneAndUpdate(
         { _id: req.params.id },
         {
@@ -208,7 +208,7 @@ const postCtrl = {
   getPostDiscover: async (req, res) => {
     try {
       const newArr = [...req.user.following, req.user._id];
-      console.log("-----------------",newArr, req.query);
+      console.log("-----------------", newArr, req.query);
       const num = req.query.num || 8;
 
       const posts = await Posts.aggregate([
@@ -235,12 +235,12 @@ const postCtrl = {
 
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
-      res.json({ 
+      res.json({
         msg: "Post deleted successfully.",
         newPost: {
           ...post,
           user: req.user
-        } 
+        }
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -335,7 +335,7 @@ const postCtrl = {
 
   getSavePost: async (req, res) => {
     try {
-      const features = new APIfeatures(Posts.find({_id: {$in: req.user.saved}}), req.query).paginating();
+      const features = new APIfeatures(Posts.find({ _id: { $in: req.user.saved } }), req.query).paginating();
 
       const savePosts = await features.query.sort("-createdAt");
 
@@ -348,6 +348,52 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  verifyUser: async (req, res) => {
+    try {
+      console.log(req.params.id)
+      Posts.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          verified: true,
+        }
+      ).then((data) => {
+        res.status(200).json({
+          msg: "Post updated successfully."
+        })
+      })
+      
+    } catch (err) {
+      return res.status(500).json({ msg: err.message })
+    }
+  },
+  getAdminPosts: async (req, res) => {
+    try {
+      const features = new APIfeatures(
+        Posts.find({}),
+        req.query
+      ).paginating();
+      // console.log(req.query,features)
+      const posts = await features.query
+        .sort("-createdAt")
+        .populate("user likes", "avatar username fullname followers")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "user likes ",
+            select: "-password",
+          },
+        });
+      console.log(posts)
+      res.json({
+        msg: "Success",
+        result: posts.length,
+        posts,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
 };
 
 module.exports = postCtrl;

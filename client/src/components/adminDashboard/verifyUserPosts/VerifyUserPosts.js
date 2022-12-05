@@ -23,7 +23,7 @@ const VerifyUserPosts = () => {
     <div className="main_admin">
       <div className="main__container">
         <div className="posts">
-        {homePosts.posts.map((post) => (
+        {homePosts.posts.filter(post => post.verified ==  false).map((post) => (
             <PostCard key={post._id} post={post} theme={theme} />
         ))}
 

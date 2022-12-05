@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { createComment } from '../redux/actions/commentAction';
+import { verify } from '../redux/actions/postAction';
 import Icons from './Icons';
 
 const InputComment = ({ children, post, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
 
-  const { auth, socket, theme } = useSelector((state) => state);
+  const { auth, socket, theme,status } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!content.trim()){
-      if(setOnReply){return setOnReply(false)}
-      return;
-    }
+    // if (!content.trim()){
+    //   if(setOnReply){return setOnReply(false)}
+    //   return;
+    // }
 
     setContent("");
 
@@ -26,7 +26,7 @@ const InputComment = ({ children, post, onReply, setOnReply }) => {
       reply: onReply && onReply.commentId,
       tag: onReply && onReply.user
     };
-    dispatch(createComment({ post, newComment, auth, socket }));
+    dispatch(verify({ post, newComment, auth, socket }));
     if (setOnReply) {
       return setOnReply(false);
     }

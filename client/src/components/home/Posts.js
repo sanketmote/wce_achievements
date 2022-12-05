@@ -21,7 +21,7 @@ const Posts = () => {
   };
   return (
     <div className="posts">
-      {homePosts.posts.map((post) => (
+      {homePosts.posts.filter(post => post.verified ==  true).map((post) => (
         <PostCard key={post._id} post={post} theme={theme} />
       ))}
 

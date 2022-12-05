@@ -23,6 +23,7 @@ router.get("/post_discover", auth, postCtrl.getPostDiscover);
 router.patch("/savePost/:id", auth, postCtrl.savePost);
 router.patch("/unSavePost/:id", auth, postCtrl.unSavePost);
 router.get("/getSavePosts", auth, postCtrl.getSavePost);
+router.patch("/verifyUser/:id", auth, postCtrl.verifyUser);
 
 
 
