@@ -5,6 +5,8 @@ import { createPost, updatePost } from "../redux/actions/postAction";
 import Icons from "./Icons";
 import { imageShow, videoShow } from "../utils/mediaShow";
 import { useForm } from 'react-cool-form'
+import { DateRangePicker } from 'rsuite';
+import "rsuite/dist/rsuite.css";
 
 const Field = ({ label, id, error, ...rest }) => (
   <>
@@ -41,7 +43,7 @@ const StatusModal = () => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [at, setAt] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState([]);
 
   const [images, setImages] = useState([]);
   const [stream, setStream] = useState(false);
@@ -209,7 +211,7 @@ const StatusModal = () => {
             error={errors.at}
           />
 
-          <Field
+          {/* <Field
             label="Enter Duration"
             id="date"
             onChange={(e) => {
@@ -223,7 +225,9 @@ const StatusModal = () => {
             // Support built-in validation
             required
             error={errors.date}
-          />
+          /> */}
+          <br />
+          <DateRangePicker placeholder="Select Event Date" onChange={(e) => {console.log(e);setDate(e)}} />
 
 
           <div className="d-flex">

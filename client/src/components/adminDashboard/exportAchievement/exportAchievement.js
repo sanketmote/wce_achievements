@@ -9,7 +9,8 @@ import {
 
 import PDFHeader from './generatePDF/Header'
 import Body from './generatePDF/Body'
-
+import { DateRangePicker } from 'rsuite';
+import "rsuite/dist/rsuite.css";
 
 const styles = StyleSheet.create({
     page: {
@@ -38,12 +39,14 @@ const styles = StyleSheet.create({
 const ExportAchievement = () => {
     const { auth, admin, socket, homePosts, theme } = useSelector((state) => state);
     const dispatch = useDispatch();
-
+    const [min, setMin] = useState("");
+    const [max, setMax] = useState("")
+    const [data, setData] = useState([]);
     const [load, setLoad] = useState(false);
-    if(homePosts.posts.length > 0) {
+    if (homePosts.posts.length > 0) {
         console.log(homePosts.posts)
     }
-    
+
     const handleLoadMore = async () => {
         setLoad(true);
         const res = await getDataAPI(`posts?limit=${homePosts.page * 9}`, auth.token);
@@ -54,15 +57,32 @@ const ExportAchievement = () => {
     return (
         <>
             <div className="main_admin">
+                <div style={{ textAlign: "center" }}>
+                    <h1> Export Achievement </h1>
+                    <br />
+                    Apply Filter :
+                    <br />
+                    <h5 style={{ padding: "15px"}}>
+
+                    <label>
+                        Select Range <DateRangePicker placeholder="Select Date" onChange={(e) => { console.log(e); setMin(e[0]); setMax(e[1]); }} />
+                    </label>
+                    </h5>
+                   
+                </div>
+
+
+
                 <div className="main__container">
                     <div className="main__title">
+
                         <PDFViewer style={styles.viewer}>
                             <Document>
                                 <Page size="A4" style={styles.page}>
-                                    <PDFHeader title={'Invoice'}/>
-                                    {homePosts.posts.map((item,index)=>{
+                                    <PDFHeader title={'Invoice'} />
+                                    {homePosts.posts.filter(item => (item.timeStamp * 1000) >= min && (item.timeStamp * 1000) <= max).map((item) => {
                                         console.log(item)
-                                        return(<Body name={item.name} description={item.content + " at " + item.at} date={item.date} link={item.images[0].url}/>)
+                                        return (<Body name={item.name} description={item.content + " at " + item.at} date={item.date} link={item.images[0].url} />)
                                     })}
                                     {/* <Body name={"Prof. Sunil Deshpande (Electronics Dept)"} description={" "} date="" link={"https://react-pdf.org/images/logo.png"}/> */}
                                 </Page>

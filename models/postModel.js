@@ -7,7 +7,15 @@ const postSchema = new Schema(
     content: String,
     name: String,
     at: String,
-    date: String,
+    date: {
+      type: Array,
+      required: true,
+    },
+    verified:{
+      type: Boolean,
+      required: true,
+      default: false
+    },
     images: {
       type: Array,
       required: true,
