@@ -350,18 +350,35 @@ const postCtrl = {
   },
   verifyUser: async (req, res) => {
     try {
-      console.log(req.params.id)
-      Posts.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          verified: true,
-        }
-      ).then((data) => {
-        res.status(200).json({
-          msg: "Post Verified successfully."
+      console.log(req.query)
+      if (req.query.result === true) {
+        Posts.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            verified: true,
+          }
+        ).then((data) => {
+          res.status(200).json({
+            msg: "Post Verified successfully."
+          })
         })
-      })
-      
+      } else {
+        const post = await Posts.findOneAndDelete({
+          _id: req.params.id
+        });
+
+        await Comments.deleteMany({ _id: { $in: post.comments } });
+
+        res.json({
+          msg: "Post Rejectd successfully.",
+          newPost: {
+            ...post,
+            user: req.user
+          }
+        });
+      }
+
+
     } catch (err) {
       return res.status(500).json({ msg: err.message })
     }

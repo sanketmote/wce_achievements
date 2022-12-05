@@ -327,20 +327,21 @@ export const unSavePost = ({ post, auth }) => async (dispatch) => {
   }
 };
 
-export const verify = ({ post, newComment, auth, socket }) => async (dispatch) => {
+export const verify = ({ post, newComment, auth, socket, result }) => async (dispatch) => {
 
   console.log(post)
   console.log(post._id)
+  console.log(result)
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
 
     await patchDataAPI(
-      `verifyUser/${post._id}`,
-      {},
+      `verifyUser/${post._id}?result=${result}`,
+      { result },
       auth.token
     ).then((res) => {
       console.log(res)
-      dispatch({ type: POST_TYPES.VERIFY, payload: res.data.msg }); 
+      dispatch({ type: POST_TYPES.VERIFY, payload: res.data.msg });
       dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
     })
       .catch(err => {

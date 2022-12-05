@@ -27,6 +27,8 @@ const VerifyUserPosts = () => {
             <PostCard key={post._id} post={post} theme={theme} />
         ))}
 
+        <div style={{textAlign: "center" }}><b><h3>No More Achievement for Today.</h3> </b> </div>
+
         {load && (
             <img src={LoadIcon} alt="Loading..." className="d-block mx-auto" />
         )}
