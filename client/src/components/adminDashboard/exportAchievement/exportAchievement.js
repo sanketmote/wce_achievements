@@ -40,7 +40,7 @@ const convert = (str) => {
         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
         day = ("0" + date.getDate()).slice(-2);
     const date1 = new Date([date.getFullYear(), mnth, day].join("-"));
-
+console.log(date1);
     const timestamp = date1.getTime();
     return timestamp;
 }
@@ -100,7 +100,6 @@ const ExportAchievement = () => {
                                 <Page size="A4" style={styles.page}>
                                     <PDFHeader title={'Invoice'} />
                                     {homePosts.posts.filter(item => (convert(item.date[0])) >= min && (convert(item.date[0])) <= max).map((item) => {
-                                        console.log(item)
                                         return (<Body name={item.name} description={item.content + " at " + item.at} date={convert1(item.date[0])} link={item.images[0].url} />)
                                     })}
                                     {/* <Body name={"Prof. Sunil Deshpande (Electronics Dept)"} description={" "} date="" link={"https://react-pdf.org/images/logo.png"}/> */}

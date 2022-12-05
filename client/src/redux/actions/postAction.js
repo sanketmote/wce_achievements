@@ -334,14 +334,23 @@ export const verify = ({ post, newComment, auth, socket }) => async (dispatch) =
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
 
-    const res = await patchDataAPI(
+    await patchDataAPI(
       `verifyUser/${post._id}`,
       {},
       auth.token
-    );
-
-    dispatch({ type: POST_TYPES.verify, payload: res.msg });
-    dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.msg } });
+    ).then((res) => {
+      console.log(res)
+      dispatch({ type: POST_TYPES.VERIFY, payload: res.data.msg }); 
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
+    })
+      .catch(err => {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: {
+            error: err.msg,
+          },
+        });
+      })
   } catch (err) {
     dispatch({
       type: GLOBALTYPES.ALERT,

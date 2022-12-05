@@ -6,10 +6,7 @@ const convert = (str) => {
     var date = new Date(str),
         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
         day = ("0" + date.getDate()).slice(-2);
-    const date1 = new Date([date.getFullYear(), mnth, day].join("-"));
-
-    const timestamp = date1.getTime();
-    return timestamp;
+    return [date.getFullYear(), mnth, day].join("-");
 }
 const styles = StyleSheet.create({
     body: {
@@ -65,8 +62,8 @@ const styles = StyleSheet.create({
 
 
     image: {
-        width: "120px",
-        height: "95px",
+        width: "480px",
+        height: "240px",
         textAlign: 'center',
         paddingTop: 5,
         paddingBottom: 12,
@@ -76,13 +73,13 @@ const styles = StyleSheet.create({
 });
 
 const Body = ({name,description,date,link}) => (
-    <View style={styles.body}>
+    <View style={styles.body} wrap={false}>
         <Text style={styles.cong}>Congratulations!! </Text>
         <Text style={styles.name}>{name}</Text>
 
         <Text style={styles.desc}>{description}
         </Text>
-        <Text style={styles.date}>On {convert(date[0])}</Text>
+        <Text style={styles.date}>On {date}</Text>
 
         <Image style={styles.image} src={link} />
 

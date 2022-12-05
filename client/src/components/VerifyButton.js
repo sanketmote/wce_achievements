@@ -16,7 +16,7 @@ const InputComment = ({ children, post, onReply, setOnReply }) => {
     //   return;
     // }
 
-    setContent("");
+    setContent(" ");
 
     const newComment = {
       content,
@@ -27,6 +27,7 @@ const InputComment = ({ children, post, onReply, setOnReply }) => {
       tag: onReply && onReply.user
     };
     dispatch(verify({ post, newComment, auth, socket }));
+    
     if (setOnReply) {
       return setOnReply(false);
     }
