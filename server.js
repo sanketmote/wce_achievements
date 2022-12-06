@@ -22,6 +22,7 @@ app.use(cookieParser())
 //#region // !Socket
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
+  rejectUnauthorized: false,
   cors: {
     origin: '*',
   }
