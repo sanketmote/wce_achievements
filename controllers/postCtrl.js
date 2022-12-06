@@ -20,7 +20,7 @@ class APIfeatures {
 const postCtrl = {
   createPost: async (req, res) => {
     try {
-      const { name, at, date, content, images,type } = req.body;
+      const { name, at, date, content, images, type } = req.body;
       console.log(name, at, date, content)
       if (images.length === 0) {
         return res.status(400).json({ msg: "Please add photo(s)" });
@@ -79,7 +79,7 @@ const postCtrl = {
 
   updatePost: async (req, res) => {
     try {
-      const { name, at, date, content, images,type } = req.body;
+      const { name, at, date, content, images, type } = req.body;
       console.log(name, at, date, content)
       const post = await Posts.findOneAndUpdate(
         { _id: req.params.id },
@@ -369,6 +369,25 @@ const postCtrl = {
           _id: req.params.id
         });
 
+        console.log("Reject");
+        var email = "sanket.mote@walchandsangli.ac.in";
+        var subject = "Regarding Added Achievement in WCE ACHIEVEMENT Website";
+        var body = "Dear User,\nThank you for your time in adding your new Achievement in WCE ACHIEVEMENT. \n" +
+          "\nHowever We have found some problem in your Achievement Post.Please Take a look on it and try again" + (content != "" ? "\n This is Comment From Admin Take a look:\n" + content : "") +
+          "\nThanks and Regards, \WCE ACHIEVEMENT Team\n" +
+          "\n\nPlease do not reply to this e-mail," +
+          "\n\nthis is a system generated email sent from an unattended mail box.";
+        var URI = process.env.URI + "?email=" + email + "&subject=" + subject + "&body=" + body;
+        await fetch(encodeURI(URI), {
+          method: 'POST',
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache',
+        }).then((data) => {
+          console.log("Email sent");
+
+        }).catch((err) => {
+          console.log(err);
+        })
         await Comments.deleteMany({ _id: { $in: post.comments } });
 
         res.json({

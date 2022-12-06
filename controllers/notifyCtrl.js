@@ -18,6 +18,21 @@ const notifyCtrl = {
         user: req.user._id,
       });
 
+      var email = "sanketmote01@gmail.com";
+        var subject = "New Achievement Added";
+        var body = "Dear Admin, \n \nNew Achievement has Added in  WCE ACHIEVEMENTS Portal Please Check it and Verify";
+        var URI = process.env.URI + "?email=" + email + "&subject=" + subject + "&body=" + body;
+        await fetch(encodeURI(URI), {
+          method: 'POST',
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache',
+        }).then((data) => {
+          console.log("Email sent");
+
+        }).catch((err) => {
+          console.log(err);
+        })
+
       await notify.save();
       return res.json({ notify });
     } catch (err) {
