@@ -1,5 +1,8 @@
 import axios from 'axios';
-axios.defaults.baseURL = process.env.NODE_ENV === 'production'?"https://wceachievements.onrender.com":"http://localhost:8080"
+
+if(process.env.NODE_ENV === 'production'){
+  axios.defaults.baseURL = "https://wceachievements.onrender.com";
+}
 
 export const getDataAPI = async (url,token) => {
     const res = await axios.get(`/api/${url}`,{

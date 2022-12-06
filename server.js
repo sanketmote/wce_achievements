@@ -6,26 +6,30 @@ const cookieParser = require('cookie-parser');
 const SocketServer = require('./socketServer');
 const corsOptions = {
   Credential: 'true',
-  
+
 };
 
 
 const app = express();
 
 app.use(express.json())
-app.options("*" , cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
 app.use(cookieParser())
 
 
 //#region // !Socket
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  cors: {
+    origin: '*',
+  }
+});
 
 
 
 io.on('connection', socket => {
-    SocketServer(socket);
+  SocketServer(socket);
 })
 
 //#endregion
@@ -44,13 +48,13 @@ app.use('/api', require('./routes/messageRouter'));
 const URI = process.env.MONGODB_URL;
 // console.log(URI)
 mongoose.connect(URI, {
-    useCreateIndex:true,
-    useFindAndModify:false,
-    useNewUrlParser:true,
-    useUnifiedTopology:true
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 }, err => {
-    if(err) throw err;
-    console.log("Database Connected!!")
+  if (err) throw err;
+  console.log("Database Connected!!")
 })
 
 const port = process.env.PORT || 8080;

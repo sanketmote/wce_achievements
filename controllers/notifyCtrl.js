@@ -1,4 +1,5 @@
 const Notifies = require('../models/notifyModel');
+const axios = require('axios').default;
 
 
 const notifyCtrl = {
@@ -23,11 +24,7 @@ const notifyCtrl = {
         var body = "Dear Admin, \n \nNew Achievement has Added in  WCE ACHIEVEMENTS Portal Please Check it and Verify";
         var URI = process.env.URI + "?email=" + email + "&subject=" + subject + "&body=" + body;
         console.log(URI);
-        await fetch(encodeURI(URI), {
-          method: 'POST',
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache',
-        }).then((data) => {
+        await axios.post(encodeURI(URI)).then((data) => {
           console.log("Email sent");
 
         }).catch((err) => {

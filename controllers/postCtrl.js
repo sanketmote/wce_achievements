@@ -1,6 +1,7 @@
 const Posts = require("../models/postModel");
 const Comments = require("../models/commentModel");
 const Users = require("../models/userModel");
+const axios = require('axios').default;
 
 class APIfeatures {
   constructor(query, queryString) {
@@ -21,7 +22,7 @@ const postCtrl = {
   createPost: async (req, res) => {
     try {
       const { name, at, date, content, images, type } = req.body;
-      console.log(name, at, date, content)
+      console.log(name, at, date, content,type)
       if (images.length === 0) {
         return res.status(400).json({ msg: "Please add photo(s)" });
       }
@@ -45,6 +46,7 @@ const postCtrl = {
         }
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -353,7 +355,7 @@ const postCtrl = {
   verifyUser: async (req, res) => {
     try {
       console.log(req.query)
-      if (req.query.result === true) {
+      if (req.query.result == true || req.query.result == 'true') {
         Posts.findOneAndUpdate(
           { _id: req.params.id },
           {
@@ -379,11 +381,7 @@ const postCtrl = {
           "\n\nthis is a system generated email sent from an unattended mail box.";
         var URI = process.env.URI + "?email=" + email + "&subject=" + subject + "&body=" + body;
         console.log(URI);
-        await fetch(encodeURI(URI), {
-          method: 'POST',
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache',
-        }).then((data) => {
+        await axios.post(encodeURI(URI)).then((data) => {
           console.log("Email sent");
 
         }).catch((err) => {

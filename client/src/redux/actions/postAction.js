@@ -27,7 +27,7 @@ export const createPost = ({ name, at, date, content, images, auth, socket,selec
 
     if (images.length > 0) {
       await imageUpload(images).then(async (media) => {
-        const res = await postDataAPI('posts', { name, at, date, content,type:selected,images: media }, auth.token);
+        const res = await postDataAPI('posts', { name, at, date, content,type:selected[0].value,images: media }, auth.token);
 
         console.log(res, content)
 
@@ -140,7 +140,7 @@ export const updatePost = ({ name, at, date, content, images, auth, status,selec
     }
     const res = await patchDataAPI(
       `post/${status._id}`,
-      { name, at, date, content, type:selected, images: [...imgOldUrl, ...media] },
+      { name, at, date, content, type:selected[0].value, images: [...imgOldUrl, ...media] },
       auth.token
     );
 
