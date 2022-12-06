@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const SocketServer = require('./socketServer');
 const corsOptions = {
   Credential: 'true',
-
+  origin: "*",
+  optionsSuccessStatus: 200
 };
 
 
