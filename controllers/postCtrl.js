@@ -378,6 +378,7 @@ const postCtrl = {
           "\n\nPlease do not reply to this e-mail," +
           "\n\nthis is a system generated email sent from an unattended mail box.";
         var URI = process.env.URI + "?email=" + email + "&subject=" + subject + "&body=" + body;
+        console.log(URI);
         await fetch(encodeURI(URI), {
           method: 'POST',
           mode: 'cors', // no-cors, *cors, same-origin

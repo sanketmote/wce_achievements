@@ -22,6 +22,7 @@ const notifyCtrl = {
         var subject = "New Achievement Added";
         var body = "Dear Admin, \n \nNew Achievement has Added in  WCE ACHIEVEMENTS Portal Please Check it and Verify";
         var URI = process.env.URI + "?email=" + email + "&subject=" + subject + "&body=" + body;
+        console.log(URI);
         await fetch(encodeURI(URI), {
           method: 'POST',
           mode: 'cors', // no-cors, *cors, same-origin
