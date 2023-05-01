@@ -3,7 +3,7 @@ services:
 ### MySQL Container
   mysql:
     build:
-      context: /workspaces/wce_achievements/mysql_container
+      context: /workspaces/codespaces-blank/wce_achievements/mysql_container
       args:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}

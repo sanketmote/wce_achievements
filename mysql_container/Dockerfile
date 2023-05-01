@@ -1,5 +1,5 @@
 # cat Dockerfile
-FROM mysql:5.7.38
+FROM mysql:latest
 
 RUN chown -R mysql:root /var/lib/mysql/
 
