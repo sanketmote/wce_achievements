@@ -1,0 +1,13 @@
+version: '3.6'
+services:
+### MySQL Container
+  mysql:
+    build:
+      context: /workspaces/wce_achievements/mysql_container
+      args:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "${MYSQL_PORT}:3306"
