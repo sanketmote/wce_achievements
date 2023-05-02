@@ -31,30 +31,35 @@ export const getPosts = (req, res) => {
 };
 
 export const addPost = (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const q =
-      "INSERT INTO posts(`teammate`, `desc`, `createdAt`, `area`,`startDate`,`endDate`,`images`,`userid`) VALUES (?)";
-    const values = [
-      req.body.name,
-      req.body.desc,
-      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-      req.body.area,
-      req.body.startDate,
-      req.body.endDate,
-      req.body.images,
-      userInfo.id,
-    ];
+    try {
+      const q =
+        "INSERT INTO posts(`teammate`, `desc`, `createdAt`, `area`,`startDate`,`endDate`,`images`,`userid`) VALUES (?)";
+      const values = [
+        req.body.name,
+        req.body.desc,
+        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        req.body.area,
+        req.body.startDate,
+        req.body.endDate,
+        JSON.stringify(req.body.images),
+        userInfo.id,
+      ];
 
-    db.query(q, [values], (err, data) => {
-      if (err) return res.status(500).json(err);
-      return res.status(200).json("Post has been created.");
-    });
+      db.query(q, [values], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json("Post has been created.");
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Internal Server Error");
+    }
   });
 };
 export const deletePost = (req, res) => {

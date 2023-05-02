@@ -128,7 +128,7 @@ const Update = ({ setOpenUpdate }) => {
     var image_url = [];
     var file_data = await imageUpload(images);
     file_data.forEach((data, index) => {
-      image_url.push(data.url);
+      image_url.push(""+data.url);
     });
     console.log(image_url);
     console.log(texts);

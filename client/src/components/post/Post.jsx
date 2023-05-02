@@ -12,7 +12,9 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
-import Image from "../profileImage/image"
+import Image from "../profileImage/image";
+import Carousel from "./imageCrads";
+
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,7 +67,7 @@ const Post = ({ post }) => {
         <div className="user">
           <div className="userInfo">
             {/* <img src={"/upload/"+post.profilePic} alt="" /> */}
-             <Image name={post.name} imgSrc={post.profilePic} classId={1} />
+            <Image name={post.name} imgSrc={post.profilePic} classId={1} />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
@@ -81,10 +83,21 @@ const Post = ({ post }) => {
             <button onClick={handleDelete}>delete</button>
           )}
         </div>
+
         <div className="content">
           <p>{post.desc}</p>
-          <img src={"/upload/" + post.img} alt="" />
+          <br />
+          <p>Team Members : {post.teammate}</p>
+          <br />
+          <p>Event Place : {post.area}</p>
+          <br />
+          <p>Event Date : {post.startDate}</p>
+          {(JSON.parse(post.images)).length > 0 && (
+            <Carousel images={JSON.parse(post.images)} id={post.id} />
+          )}
+          Carousel
         </div>
+
         <div className="info">
           <div className="item">
             {isLoading ? (
@@ -101,7 +114,7 @@ const Post = ({ post }) => {
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            See Comments 
+            See Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />
