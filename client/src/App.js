@@ -16,9 +16,10 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import AdminDashboard from "./pages/adminDashboard";
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser,isAdmin } = useContext(AuthContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
@@ -66,6 +67,21 @@ function App() {
           path: "/profile/:id",
           element: <Profile />,
         },
+      ],
+    },
+    {
+      path: "/admin",
+      element: (
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "/admin",
+          element: <Profile />,
+        },
+       
       ],
     },
     {

@@ -15,13 +15,16 @@ const Login = () => {
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const { login } = useContext(AuthContext);
+  const { login, isAdmin } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await login(inputs);
+      if(!isAdmin)
       navigate("/")
+      else  
+        navigate("/admin")
     } catch (err) {
       setErr(err.response.data);
     }
