@@ -73,13 +73,13 @@ function App() {
       path: "/admin",
       element: (
         <ProtectedRoute>
-          <Profile />
+          <Layout />
         </ProtectedRoute>
       ),
       children: [
         {
           path: "/admin",
-          element: <Profile />,
+          element: <Home />,
         },
        
       ],

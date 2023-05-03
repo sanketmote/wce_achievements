@@ -7,14 +7,14 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
 import Image from "../profileImage/image";
 const Navbar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser,logOut } = useContext(AuthContext);
 
   return (
     <div className="navbar">
@@ -39,12 +39,32 @@ const Navbar = () => {
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
         <div className="user">
-          {/* <img
-            src={"/upload/" + currentUser.profilePic}
-            alt=""
-          /> */}
-          <Image name={currentUser.name} imgSrc={currentUser.profilePic} classId={1} />
-          <span>{currentUser.name}</span>
+          <li
+            className="nav-item dropdown"
+            style={{ opacity: "1", listStyleType: "none" }}
+          >
+            <span
+              className="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <Image
+                name={currentUser.name}
+                imgSrc={currentUser.profilePic}
+                classId={1}
+              />
+              {/* {currentUser.name} */}
+            </span>
+
+            <ul className="dropdown-menu" aria-labelledby="navbarDropdown" style={{minWidth:"5rem"}}>
+              <li>
+                <button className="dropdown-item" onClick={logOut}>logout</button>
+              </li>
+            </ul>
+          </li>
+ 
         </div>
       </div>
     </div>

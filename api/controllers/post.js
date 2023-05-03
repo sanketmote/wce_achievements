@@ -30,6 +30,25 @@ export const getPosts = (req, res) => {
   });
 };
 
+export const getCount = (req, res) => {
+  const userId = req.query.userId;
+  var q = ""
+  if(userId == undefined || userId == NULL || userId == ""){
+      q = "SELECT count(*) as cnt FROM posts"
+  } else {
+      q = "SELECT count(p.*) as cnt , u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u WHERE p.userId = ?"
+  }
+  
+
+  db.query(q, userId, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+    return res.status(200).json(data);
+  });
+};
+
 export const addPost = (req, res) => {
   console.log(req.body);
   const token = req.cookies.accessToken;

@@ -10,6 +10,15 @@ export const getLikes = (req,res)=>{
     });
 }
 
+export const getCount = (req,res)=>{
+  const q = "SELECT userId FROM likes WHERE postId = ?";
+
+  db.query(q, [req.query.postId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data.length);
+  });
+}
+
 export const addLike = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
