@@ -10,12 +10,12 @@ export const getPosts = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    console.log(userId);
+    console.log(userId !== "undefined" );
 
     const q =
-      userId !== "undefined"
-        ? `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId) WHERE p.userId = ? ORDER BY p.createdAt DESC`
-        : `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ORDER BY p.createdAt DESC`;
+      (userId == "undefined" || userId == undefined || userId == NULL || userId == "")
+        ? `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId) ORDER BY p.createdAt DESC`
+        : `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId) WHERE p.userId = ? ORDER BY p.createdAt DESC`;
 
     const values =
       userId !== "undefined" ? [userId] : [userInfo.id, userInfo.id];
@@ -25,6 +25,7 @@ export const getPosts = (req, res) => {
         console.log(err);
         return res.status(500).json(err);
       }
+      console.log(q,data)
       return res.status(200).json(data);
     });
   });

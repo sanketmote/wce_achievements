@@ -8,7 +8,7 @@ import Main from "../main/main";
 // import Spam from "../spamManagement/Spam";
 // import UsersManagement from "../usersManagement/UsersManagement";
 // import VerifyUserPosts from "../verifyUserPosts/VerifyUserPosts";
-// import ExportAchievement from "../exportAchievement/exportAchievement";
+import ExportAchievement from "../exportAchievement/exportAchievement";
 import { AuthContext } from "../../../context/authContext"; 
 import { useContext } from "react";
 const Sidebar = () => {
@@ -23,7 +23,7 @@ const Sidebar = () => {
       {/* {adminMenu === 3 && <Spam />} */}
       {/* {adminMenu === 4 && <UsersManagement />} */}
       {/* {adminMenu === 5 && <VerifyUserPosts />} */}
-      {/* {adminMenu === 6 && <ExportAchievement />} */}
+      {adminMenu === 6 && <ExportAchievement />}
 
       <div className="sidebar_responsive" id="sidebar">
         <div className="sidebar__title">

@@ -43,7 +43,7 @@ const Main = () => {
       });
       console.log("likes", data);
       setadmin((prev) => ({ ...prev,total_likes: data }));
-      console.log(admin)
+      // console.log(admin)
       setLoading(false);
     } catch (err) {
       console.log(err);
