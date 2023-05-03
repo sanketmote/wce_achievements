@@ -11,8 +11,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import PDFHeader from "./generatePDF/Header";
 import Body from "./generatePDF/Body";
-import { DateRangePicker } from "rsuite";
-import "rsuite/dist/rsuite.min.css";
+// import { DateRangePicker } from "rsuite";
+// import "rsuite/dist/rsuite.min.css";
 import { AuthContext } from "../../../context/authContext";
 // import Chart from "../charts/Chart";
 
@@ -71,13 +71,21 @@ const ExportAchievement = () => {
   //   }
   const { isLoading, error, data } = useQuery(["posts"], () =>
     makeRequest.get("/posts").then((res) => {
-      console.log(res.data);
+      console.log(res.status);
       return res.data;
+    })
+    .catch((err)=>{
+      if(err.response.status === 401){
+        logOut()
+      
+      }
+      console.log("err",err.response.status)
     })
   );
   const FetchData = async () => {
     setLoad(true);
     var data = await makeRequest.get("/posts/").then((res) => {
+      console.log(res.status);
       return res.data;
     });
     console.log(data);

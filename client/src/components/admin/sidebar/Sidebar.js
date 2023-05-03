@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import "./Sidebar.css";
 import React, { useState } from "react";
 import Main from "../main/main";
-// import AdminManagement from "../adminManagement/AdminManagement";
+import AdminManagement from "../adminManagement/management";
 // import Spam from "../spamManagement/Spam";
 // import UsersManagement from "../usersManagement/UsersManagement";
 // import VerifyUserPosts from "../verifyUserPosts/VerifyUserPosts";
@@ -19,7 +19,7 @@ const Sidebar = () => {
   return (
     <>
       {adminMenu === 1 && <Main />}
-      {/* {adminMenu === 2 && <AdminManagement />} */}
+      {adminMenu === 2 && <AdminManagement />}
       {/* {adminMenu === 3 && <Spam />} */}
       {/* {adminMenu === 4 && <UsersManagement />} */}
       {/* {adminMenu === 5 && <VerifyUserPosts />} */}
@@ -58,13 +58,13 @@ const Sidebar = () => {
             <a href="#">Export Achievements</a>
           </div>
 
-          <div
+          {/* <div
             className={`sidebar__link ${adminMenu === 3 && "active_menu_link"}`}
             onClick={() => setAdminMenu(3)}
           >
             <i className="fa fa-ban"></i>
             <a href="#">Spams Management</a>
-          </div>
+          </div> */}
 {/* 
           <div
             className={`sidebar__link ${adminMenu === 4 && "active_menu_link"}`}
