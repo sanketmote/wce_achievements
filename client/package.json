@@ -22,11 +22,12 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "sass": "^1.55.0",
+    "serve": "^14.2.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build &&  npm install -g serve",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
