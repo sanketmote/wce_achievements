@@ -31,14 +31,14 @@ const Register = () => {
   return (
     <div className="register">
       <div className="card">
-        <div className="left">
-          <h1>achievements</h1>
+        <div>
+          <h1>Welcome to WCE Achievements</h1>
           <p>
             {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero cum,
             alias totam numquam ipsa exercitationem dignissimos, error nam,
             consequatur. */}
           </p>
-          <span>Welcome to WCE Achievements?</span>
+          <span>Do you have an account?</span>
           <Link to="/login">
             <button>Login</button>
           </Link>
