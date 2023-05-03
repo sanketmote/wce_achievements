@@ -16,10 +16,10 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import AdminDashboard from "./pages/adminDashboard";
+import Admin from "./pages/admin/Admin";
 
 function App() {
-  const { currentUser,isAdmin } = useContext(AuthContext);
+  const { currentUser, isAdmin } = useContext(AuthContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
@@ -41,7 +41,17 @@ function App() {
       </QueryClientProvider>
     );
   };
+  const AdminLayout = () => {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <Navbar />
 
+          <Outlet />
+        </div>
+      </QueryClientProvider>
+    );
+  };
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/login" />;
@@ -73,15 +83,14 @@ function App() {
       path: "/admin",
       element: (
         <ProtectedRoute>
-          <Layout />
+          <AdminLayout />,
         </ProtectedRoute>
       ),
       children: [
         {
           path: "/admin",
-          element: <Home />,
+          element: <Admin />,
         },
-       
       ],
     },
     {

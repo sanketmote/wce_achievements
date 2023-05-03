@@ -18,7 +18,7 @@ export const AuthContextProvider = ({ children }) => {
     );
     console.log(res.data);
     setCurrentUser(res.data);
-    setAdmin(res.data.role==1);
+    setAdmin(res.data.roles);
   };
 
   const logOut = async () => {
