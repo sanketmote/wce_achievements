@@ -8,7 +8,7 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
   const [isAdmin, setAdmin] = useState(localStorage.getItem("role") || false);
-  const login = async (inputs) => {
+  const login = async (inputs,setErr) => {
     try {
       const res = await axios.post(
         "http://localhost:8800/api/auth/login",
@@ -20,8 +20,10 @@ export const AuthContextProvider = ({ children }) => {
       console.log(res.data);
       setCurrentUser(res.data);
       setAdmin(res.data.roles===1);
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err.response)
+      setErr(err.response.data)
+      window.alert(err.response.data+"check your username");
     }
   };
 
