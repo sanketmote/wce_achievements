@@ -66,7 +66,8 @@ const Login = () => {
           <input
             type="text"
             required
-            placeholder="Enter your email"
+            name="username"
+            placeholder="Enter your Username"
             id="user"
             autocomplete="off"
             onChange={handleChange}
@@ -75,6 +76,7 @@ const Login = () => {
             oninput={formvalid}
             type="password"
             required
+            name="password"
             placeholder="Enter Password"
             id="pass"
             autocomplete="off"
