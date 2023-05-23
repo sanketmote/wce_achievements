@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
       );
       console.log(res.data);
       setCurrentUser(res.data);
-      setAdmin(res.data.roles);
+      setAdmin(res.data.roles===1);
     } catch (error) {
       console.log(error)
     }
