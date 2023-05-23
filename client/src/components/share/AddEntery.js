@@ -24,8 +24,13 @@ const Field = ({ label, id, error, ...rest }) => (
 );
 
 const options = [
-  { label: "Sport", value: "sport" },
-  { label: "Educational", value: "edu" },
+  { label: "Sports Achievements", value: "sport" },
+  { label: "Academic Achievements", value: "edu" },
+  { label: "Extracurricular Achievements", value: "extra" },
+  { label: "Internships, Certificate area and Work Experience", value: "intern" },
+  { label: "Research and Innovation", value: "res" },
+  { label: "Artistic and Creative Achievements:", value: "creat" },
+  { label: "Organizational Achievements", value: "org" },
   { label: "Other", value: "other" },
 ];
 
@@ -39,6 +44,8 @@ const Update = ({ setOpenUpdate }) => {
     area: "",
     startDate: "",
     endDate: "",
+    outcome: "",
+    obh: "",
   });
   const [images, setImages] = useState([]);
   const [user, setUser] = useState({});
@@ -128,7 +135,7 @@ const Update = ({ setOpenUpdate }) => {
     var image_url = [];
     var file_data = await imageUpload(images);
     file_data.forEach((data, index) => {
-      image_url.push(""+data.url);
+      image_url.push("" + data.url);
     });
     console.log(image_url);
     console.log(texts);
@@ -207,6 +214,33 @@ const Update = ({ setOpenUpdate }) => {
             type="text"
             name="area"
             value={texts.area}
+            onChange={handleChange}
+          />
+
+          <label>Enter Objective</label>
+          <input
+            type="text"
+            key={6}
+            value={texts.obj}
+            name="obj"
+            onChange={handleChange}
+          />
+
+          <label>Enter Outcome</label>
+          <input
+            type="text"
+            key={7}
+            value={texts.outcome}
+            name="outcome"
+            onChange={handleChange}
+          />
+
+          <label>Award	Recived from ( if Applicable ) </label>
+          <input
+            type="text"
+            key={7}
+            value={texts.outcome}
+            name="outcome"
             onChange={handleChange}
           />
 
