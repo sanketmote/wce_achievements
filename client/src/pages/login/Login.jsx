@@ -45,9 +45,8 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(inputs,setErr);
-      if (!isAdmin) navigate("/");
-      else navigate("/admin");
+      await login(inputs, setErr);
+     
     } catch (err) {
       setErr(err.response.data);
     }
