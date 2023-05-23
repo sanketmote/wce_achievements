@@ -89,26 +89,26 @@ const Share = () => {
         <div className="bottom">
           <div className="left">
             <input
-              type="file"
+              type="text"
               id="file"
               style={{ display: "none" }}
-              onChange={(e) => setFile(e.target.files[0])}
+              onClick={(e) => setOpenUpdate(true)}
             />
             <label htmlFor="file">
-              <div className="item">
+              <div className="item" onClick={(e) => setOpenUpdate(true)}>
                 <img src={ImagePic} alt="" />
                 <span>Add Event Image</span>
               </div>
             </label>
-            <div className="item">
+            <div className="item" onClick={(e) => setOpenUpdate(true)}>
               <img src={Map} alt="" />
               <span>Add Place</span>
             </div>
-            <div className="item">
+            <div className="item" onClick={(e) => setOpenUpdate(true)}>
               <img src={Friend} alt="" />
               <span>Add Team Members</span>
             </div>
-            <div className="item">
+            <div className="item" onClick={(e) => setOpenUpdate(true)}>
               <img src={circle} alt="" />
               <span>And Share With All</span>
             </div>

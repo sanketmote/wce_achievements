@@ -9,16 +9,20 @@ export const AuthContextProvider = ({ children }) => {
   );
   const [isAdmin, setAdmin] = useState(localStorage.getItem("role") || false);
   const login = async (inputs) => {
-    const res = await axios.post(
-      "http://localhost:8800/api/auth/login",
-      inputs,
-      {
-        withCredentials: true,
-      }
-    );
-    console.log(res.data);
-    setCurrentUser(res.data);
-    setAdmin(res.data.roles);
+    try {
+      const res = await axios.post(
+        "http://localhost:8800/api/auth/login",
+        inputs,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res.data);
+      setCurrentUser(res.data);
+      setAdmin(res.data.roles);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const logOut = async () => {

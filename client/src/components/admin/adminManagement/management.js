@@ -21,7 +21,7 @@ const AdminManagement = () => {
 
     try {
       inputs.role = 1;
-      await axios.post("http://localhost:8800/api/auth/register", inputs).then((res)=>{
+      await axios.post("https://wceback.loca.lt/api/auth/register", inputs).then((res)=>{
             window.alert("Admin Added succefully ")
             window.location.reload()
       }).catch((err)=>{
