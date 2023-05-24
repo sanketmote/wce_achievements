@@ -140,7 +140,7 @@ const Update = ({ setOpenUpdate }) => {
     });
     console.log(image_url);
     console.log(texts,selected);
-    // mutation.mutate({ ...texts, images: image_url,type:selected });
+    mutation.mutate({ ...texts, images: image_url,type:selected });
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);

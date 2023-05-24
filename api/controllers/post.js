@@ -72,7 +72,8 @@ export const addPost = (req, res) => {
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         req.body.outcome,
         req.body.obj,
-        req
+        JSON.stringify(req.body.type),
+        req.body.award
       ];
 
       db.query(q, [values], (err, data) => {

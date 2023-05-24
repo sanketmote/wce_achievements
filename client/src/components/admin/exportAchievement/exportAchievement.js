@@ -8,9 +8,12 @@ import {
   Image,
   Text,
 } from "@react-pdf/renderer";
+import { MultiSelect } from "react-multi-select-component";
 import { useQuery } from "@tanstack/react-query";
 import PDFHeader from "./generatePDF/Header";
 import Body from "./generatePDF/Body";
+import _ from "lodash";
+
 // import { DateRangePicker } from "rsuite";
 // import "rsuite/dist/rsuite.min.css";
 import { AuthContext } from "../../../context/authContext";
@@ -73,6 +76,19 @@ const convert = (str) => {
   return timestamp;
 };
 
+const options = [
+  { label: "Sports Achievements", value: "sport" },
+  { label: "Academic Achievements", value: "edu" },
+  { label: "Extracurricular Achievements", value: "extra" },
+  {
+    label: "Internships, Certificate area and Work Experience",
+    value: "intern",
+  },
+  { label: "Research and Innovation", value: "res" },
+  { label: "Artistic and Creative Achievements:", value: "creat" },
+  { label: "Organizational Achievements", value: "org" },
+  { label: "Other", value: "other" },
+];
 const convert1 = (str) => {
   var date = new Date(str),
     mnth = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -88,14 +104,15 @@ const ExportAchievement = () => {
   //   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
   const [homePosts, sethomePosts] = useState([]);
+  const [selected, setSelected] = useState([]);
   //   if (homePosts.length > 0) {
   //     console.log(homePosts.posts);
   //   }
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   const handleInputChange = (event, newValue) => {
     setValue(newValue);
-    localStorage.setItem("repouser",newValue)
+    localStorage.setItem("repouser", newValue);
   };
   const { isLoading, error, data } = useQuery(["posts"], () =>
     makeRequest
@@ -132,10 +149,23 @@ const ExportAchievement = () => {
   //     dispatch({ type: POST_TYPES.GET_POSTS, payload: { ...res.data, page: homePosts.page + 1 } });
   //     setLoad(false);
   // };
+
+  const checkSameObject = (array1, array2) => {
+    return array1.some((obj1) => {
+      return array2.some((obj2) => _.isEqual(obj1, obj2));
+    });
+  };
+
   return (
     <>
       <div className="nav_admin">
         <Container maxWidth="xl">
+          <br />
+          <Stack>
+            <Typography variant="h4" sx={{ mb: 2 }}>
+              WCE Achievements
+            </Typography>
+          </Stack>
           <Stack
             direction="row"
             alignItems="center"
@@ -147,33 +177,41 @@ const ExportAchievement = () => {
               autoHighlight
               popupIcon={null}
               // PopperComponent={StyledPopper}
-              options={homePosts}
-              getOptionLabel={(user) => user.username}
+              options={options}
+              getOptionLabel={(user) => user.label}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               inputValue={value}
               onInputChange={handleInputChange}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="Search Users..."
-                  // onChange={fetchSuggestions}
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        {/* <Iconify
-                          icon={"eva:search-fill"}
-                          sx={{
-                            ml: 1,
-                            width: 20,
-                            height: 20,
-                            color: "text.disabled",
-                          }}
-                        /> */}
-                      </InputAdornment>
-                    ),
-                  }}
+                <MultiSelect
+                  key={5}
+                  isMulti
+                  options={options}
+                  value={selected}
+                  onChange={setSelected}
+                  labelledBy="Select Achievement Type"
                 />
+                // <TextField
+                //   {...params}
+                //   placeholder="Search Category ..."
+                //   // onChange={fetchSuggestions}
+                //   InputProps={{
+                //     ...params.InputProps,
+                //     startAdornment: (
+                //       <InputAdornment position="start">
+                //         {/* <Iconify
+                //           icon={"eva:search-fill"}
+                //           sx={{
+                //             ml: 1,
+                //             width: 20,
+                //             height: 20,
+                //             color: "text.disabled",
+                //           }}
+                //         /> */}
+                //       </InputAdornment>
+                //     ),
+                //   }}
+                // />
               )}
             />
           </Stack>
@@ -206,11 +244,11 @@ const ExportAchievement = () => {
                 <Page size="A4" style={styles.page}>
                   <PDFHeader title={"Invoice"} />
                   {homePosts
-                    // .filter(
-                    //   (item) =>
-                    //     convert(item.date[0]) >= min &&
-                    //     convert(item.date[0]) <= max
-                    // )
+                    .filter((item) => {
+                      const selData = JSON.parse(item.type);
+                      const hasSameObject = checkSameObject(selData, selected);
+                      return (hasSameObject  || selected.length==0)
+                    })
                     .map((item) => {
                       return (
                         <Body
@@ -221,12 +259,12 @@ const ExportAchievement = () => {
                         />
                       );
                     })}
-                  <Body
+                  {/* <Body
                     name={"Prof. Sunil Deshpande (Electronics Dept)"}
                     description={" "}
                     date=""
                     link={"https://react-pdf.org/images/logo.png"}
-                  />
+                  /> */}
                 </Page>
               </Document>
             </PDFViewer>
