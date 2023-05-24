@@ -45,7 +45,8 @@ const Update = ({ setOpenUpdate }) => {
     startDate: "",
     endDate: "",
     outcome: "",
-    obh: "",
+    obj: "",
+    award:"",
   });
   const [images, setImages] = useState([]);
   const [user, setUser] = useState({});
@@ -138,8 +139,8 @@ const Update = ({ setOpenUpdate }) => {
       image_url.push("" + data.url);
     });
     console.log(image_url);
-    console.log(texts);
-    mutation.mutate({ ...texts, images: image_url });
+    console.log(texts,selected);
+    // mutation.mutate({ ...texts, images: image_url,type:selected });
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
@@ -239,7 +240,7 @@ const Update = ({ setOpenUpdate }) => {
           <input
             type="text"
             key={7}
-            value={texts.outcome}
+            value={texts.award}
             name="outcome"
             onChange={handleChange}
           />

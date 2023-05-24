@@ -17,6 +17,28 @@ import { AuthContext } from "../../../context/authContext";
 // import Chart from "../charts/Chart";
 
 import { makeRequest } from "../../../axios";
+// import { Helmet } from 'react-helmet-async';
+// import { filter } from 'lodash';
+// @mui
+import {
+  Card,
+  Table,
+  Stack,
+  Paper,
+  Avatar,
+  Button,
+  TableRow,
+  TableBody,
+  TableCell,
+  Autocomplete,
+  Popper,
+  TextField,
+  Container,
+  InputAdornment,
+  Typography,
+  TableContainer,
+  TablePagination,
+} from "@mui/material";
 
 const styles = StyleSheet.create({
   page: {
@@ -63,24 +85,31 @@ const ExportAchievement = () => {
   const { currentUser, logOut, isAdmin } = useContext(AuthContext);
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
-//   const [data, setData] = useState([]);
+  //   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
   const [homePosts, sethomePosts] = useState([]);
   //   if (homePosts.length > 0) {
   //     console.log(homePosts.posts);
   //   }
+  const [value, setValue] = useState('');
+
+  const handleInputChange = (event, newValue) => {
+    setValue(newValue);
+    localStorage.setItem("repouser",newValue)
+  };
   const { isLoading, error, data } = useQuery(["posts"], () =>
-    makeRequest.get("/posts").then((res) => {
-      console.log(res.status);
-      return res.data;
-    })
-    .catch((err)=>{
-      if(err.response.status === 401){
-        logOut()
-      
-      }
-      console.log("err",err.response.status)
-    })
+    makeRequest
+      .get("/posts")
+      .then((res) => {
+        console.log(res.status);
+        return res.data;
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          logOut();
+        }
+        console.log("err", err.response.status);
+      })
   );
   const FetchData = async () => {
     setLoad(true);
@@ -105,6 +134,51 @@ const ExportAchievement = () => {
   // };
   return (
     <>
+      <div className="nav_admin">
+        <Container maxWidth="xl">
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            mb={5}
+          >
+            <Autocomplete
+              sx={{ width: 280 }}
+              autoHighlight
+              popupIcon={null}
+              // PopperComponent={StyledPopper}
+              options={homePosts}
+              getOptionLabel={(user) => user.username}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              inputValue={value}
+              onInputChange={handleInputChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Search Users..."
+                  // onChange={fetchSuggestions}
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {/* <Iconify
+                          icon={"eva:search-fill"}
+                          sx={{
+                            ml: 1,
+                            width: 20,
+                            height: 20,
+                            color: "text.disabled",
+                          }}
+                        /> */}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+          </Stack>
+        </Container>
+      </div>
       <div className="main_admin">
         {/* <div style={{ textAlign: "center" }}>
           <h1> Export Achievement </h1>
@@ -147,7 +221,12 @@ const ExportAchievement = () => {
                         />
                       );
                     })}
-                  {/* <Body name={"Prof. Sunil Deshpande (Electronics Dept)"} description={" "} date="" link={"https://react-pdf.org/images/logo.png"}/> */}
+                  <Body
+                    name={"Prof. Sunil Deshpande (Electronics Dept)"}
+                    description={" "}
+                    date=""
+                    link={"https://react-pdf.org/images/logo.png"}
+                  />
                 </Page>
               </Document>
             </PDFViewer>

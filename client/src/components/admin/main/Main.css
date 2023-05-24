@@ -5,6 +5,9 @@
   flex: 6;
 }
 
+.nav_admin{
+  grid-area: nav;
+}
 .main__container {
   padding: 20px 35px;
 }

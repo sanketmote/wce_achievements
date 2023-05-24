@@ -60,16 +60,19 @@ export const addPost = (req, res) => {
 
     try {
       const q =
-        "INSERT INTO posts(`teammate`, `desc`, `createdAt`, `area`,`startDate`,`endDate`,`images`,`userid`) VALUES (?)";
+        "INSERT INTO `posts` (`teammate`,`desc`, `area`, `startDate`, `endDate`, `images`, `userid`, `createdAt`, `outcome`, `obj`, `type`, `award`)  VALUES (?)";
       const values = [
         req.body.name,
         req.body.desc,
-        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         req.body.area,
         req.body.startDate,
         req.body.endDate,
         JSON.stringify(req.body.images),
         userInfo.id,
+        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        req.body.outcome,
+        req.body.obj,
+        req
       ];
 
       db.query(q, [values], (err, data) => {
