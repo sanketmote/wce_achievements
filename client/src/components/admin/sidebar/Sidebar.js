@@ -7,10 +7,10 @@ import Main from "../main/main";
 import AdminManagement from "../adminManagement/management";
 // import Spam from "../spamManagement/Spam";
 // import UsersManagement from "../usersManagement/UsersManagement";
-// import VerifyUserPosts from "../verifyUserPosts/VerifyUserPosts";
 import ExportAchievement from "../exportAchievement/exportAchievement";
 import { AuthContext } from "../../../context/authContext"; 
 import { useContext } from "react";
+import VerifyUserPosts from '../verifyPosts/verifyPosts';
 const Sidebar = () => {
   const { currentUser,logOut,isAdmin } = useContext(AuthContext);
   const [adminMenu, setAdminMenu] = useState(1);
@@ -22,7 +22,7 @@ const Sidebar = () => {
       {adminMenu === 2 && <AdminManagement />}
       {/* {adminMenu === 3 && <Spam />} */}
       {/* {adminMenu === 4 && <UsersManagement />} */}
-      {/* {adminMenu === 5 && <VerifyUserPosts />} */}
+      {adminMenu === 5 && <VerifyUserPosts />}
       {adminMenu === 6 && <ExportAchievement />}
 
       <div className="sidebar_responsive" id="sidebar">
