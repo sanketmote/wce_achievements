@@ -18,7 +18,10 @@ const VerifyUserPosts = ({ userId }) => {
           ? "Something went wrong!"
           : isLoading
           ? "loading"
-          : data.map((post, index) => <Post post={post} key={index} admin={1}/>)}
+          : data.filter((item) => {
+            const selData = item.status
+            return selData==2;
+          }).map((post, index) => <Post post={post} key={index} admin={1}/>)}
       </div>
     </div>
   );

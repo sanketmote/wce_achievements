@@ -17,7 +17,10 @@ const Posts = ({userId}) => {
         ? "Something went wrong!"
         : isLoading
         ? "loading"
-        : data.map((post,index) => <Post post={post} key={index} />)}
+        : data.filter((item) => {
+          const selData = item.verified
+          return selData==1;
+        }).map((post,index) => <Post post={post} key={index} />)}
     </div>
   );
 };

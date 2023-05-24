@@ -12,21 +12,35 @@ const mailCtrl = {
       // "\n\nPlease do not reply to this e-mail," +
       // "\n\nthis is a system generated email sent from an unattended mail box.";
       var URI =
-        "https://script.google.com/macros/s/AKfycbyapXj8BM1l7lc4xSpHXOjuaU42bIEwiHXwdYUBdCZfQJIdL1jYVYjQEYNgqJW58rm6/exec" +
+        "https://script.google.com/macros/s/AKfycbzew5mkEryjZTkLhqQDFgCWQ1uNkPmwG-5_gK5sgzn6B6IJkAdVCeJaREftveaiVCyt/exec" +
         "?recipient=" +
         email +
         "&subject=" +
         subject +
         "&body=" +
-        body;
-      axios
-        .post(encodeURI(URI))
+        body +
+        "&status=0";
+
+      fetch(encodeURI(URI), {
+        method: "GET",
+        payload: JSON.stringify({recipient:email,subject:subject, body:body}),
+      })
         .then((data) => {
-          console.log("Email sent");
+          console.log(data);
+          
         })
         .catch((err) => {
           console.log(err);
         });
+      // axios
+      //   .get(encodeURI(URI),)
+      //   .then((data) => {
+      //     console.log(data.data)
+      //     console.log("Email sent");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     } catch (err) {
       console.log(err);
     }

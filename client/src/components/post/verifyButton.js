@@ -1,48 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { makeRequest } from "../../axios";
 
 const InputComment = ({ children, post, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
   const [vr, setVR] = useState(false);
 
-
   const handleSubmit1 = (e) => {
-    e.preventDefault();
-
     const newComment = {
       content,
-      likes: [],
-    //   user: auth.user,
-      createdAt: new Date().toISOString(),
-      reply: onReply && onReply.commentId,
-      tag: onReply && onReply.user
+      status: 0,
+      id: post.id,
+      email: post.email,
+      name: post.name,
     };
+    console.log(newComment);
     setContent("");
-    console.log(vr)
-    // dispatch(verify({ post, newComment, auth, socket, result: false }));
-    console.log("Reject");
-    var email = "sanket.mote@walchandsangli.ac.in";
-    var subject = "Regarding Added Achievement in WCE ACHIEVEMENT Website";
-    var body = "Dear User,\nThank you for your time in adding your new Achievement in WCE ACHIEVEMENT. \n" +
-      "\nHowever We have found some problem in your Achievement Post.Please Take a look on it and try again" + (content != "" ? "\n This is Comment From Admin Take a look:\n" + content : "") +
-      "\nThanks and Regards, \WCE ACHIEVEMENT Team\n" +
-      "\n\nPlease do not reply to this e-mail," +
-      "\n\nthis is a system generated email sent from an unattended mail box.";
-    var URI = "https://script.google.com/macros/s/AKfycbxeP5Km6KmFQCmuiN9HlxmAbONvN2CDArjowip6bG_GBmBjUjryCLbrWGsxTpZw42uytQ/exec"+"?email=" + email + "&subject=" + subject + "&body=" + body;
-    fetch(encodeURI(URI), {
-      method: 'POST',
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache',
-    }).then((data) => {
-      console.log("Email sent");
-      if (setOnReply) {
-        return setOnReply(false);
-      }
-
-    }).catch((err) => {
-      console.log(err);
-    })
-
+    makeRequest.post("/posts/verify", { data: newComment });
   };
 
   const handleSubmit = (e) => {
@@ -50,18 +23,18 @@ const InputComment = ({ children, post, onReply, setOnReply }) => {
 
     const newComment = {
       content,
-      status:1,
-      id:post.id,
-      mail:post.email
+      status: 1,
+      id: post.id,
+      email: post.email,
+      name: post.name,
     };
-    console.log(newComment)
+    console.log(newComment);
     setContent("");
-    makeRequest.post("/posts/verify",{ data: newComment })
+    makeRequest.post("/posts/verify", { data: newComment });
 
     // if (setOnReply) {
     //   return setOnReply(false);
     // }
-
   };
 
   return (
