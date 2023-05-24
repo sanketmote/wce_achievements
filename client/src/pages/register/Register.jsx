@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
-import axios from "axios";
-
+import { makeRequest } from "../../axios";
 const formvalid = () => {
   var vaildpass = document.getElementById("pass").value;
 
@@ -31,7 +30,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8800/api/auth/register", inputs);
+      await makeRequest.post("/auth/register", inputs);
       navigate("/login");
     } catch (err) {
       setErr(err.response.data);

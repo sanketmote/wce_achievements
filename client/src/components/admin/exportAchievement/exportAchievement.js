@@ -8,11 +8,17 @@ import {
   Image,
   Text,
 } from "@react-pdf/renderer";
+import "./style.css";
 import { MultiSelect } from "react-multi-select-component";
 import { useQuery } from "@tanstack/react-query";
 import PDFHeader from "./generatePDF/Header";
 import Body from "./generatePDF/Body";
 import _ from "lodash";
+import { DateRangePicker } from "rsuite";
+
+import { styled } from "@mui/material/styles";
+
+import { startOfDay, endOfDay, subDays, subMonths } from "date-fns";
 
 // import { DateRangePicker } from "rsuite";
 // import "rsuite/dist/rsuite.min.css";
@@ -39,6 +45,7 @@ import {
   Container,
   InputAdornment,
   Typography,
+  Toolbar,
   TableContainer,
   TablePagination,
 } from "@mui/material";
@@ -65,6 +72,29 @@ const styles = StyleSheet.create({
     height: window.innerHeight,
   },
 });
+
+const Ranges = [
+  {
+    label: "Last 7 Days",
+    value: [startOfDay(subDays(new Date(), 6)), endOfDay(new Date())],
+  },
+  {
+    label: "Last 30 Days",
+    value: [startOfDay(subMonths(new Date(), 1)), endOfDay(new Date())],
+  },
+  {
+    label: "Last 60 Days",
+    value: [startOfDay(subMonths(new Date(), 2)), endOfDay(new Date())],
+  },
+  { label: "Reset", value: [new Date(), new Date()] },
+];
+
+const StyledRoot = styled(Toolbar)(({ theme }) => ({
+  height: 96,
+  display: "flex",
+  justifyContent: "space-between",
+  padding: theme.spacing(0, 1, 0, 3),
+}));
 
 const convert = (str) => {
   var date = new Date(str),
@@ -169,7 +199,7 @@ const ExportAchievement = () => {
           <Stack
             direction="row"
             alignItems="center"
-            justifyContent="space-between"
+            // justifyContent="space-between"
             mb={5}
           >
             <Autocomplete
@@ -214,29 +244,29 @@ const ExportAchievement = () => {
                 // />
               )}
             />
+
+            <StyledRoot
+              sx={{
+                color: "primary.main",
+              }}
+            >
+              <Typography variant="h5">Select Date :</Typography>
+              &nbsp;&nbsp;
+              <DateRangePicker
+                value={value}
+                onChange={setValue}
+                ranges={Ranges}
+                format="yyyy-MM-dd"
+                defaultCalendarValue={[
+                  startOfDay(subMonths(new Date(), 1)),
+                  endOfDay(new Date()),
+                ]}
+              />
+            </StyledRoot>
           </Stack>
         </Container>
       </div>
       <div className="main_admin">
-        {/* <div style={{ textAlign: "center" }}>
-          <h1> Export Achievement </h1>
-          <br />
-          Apply Filter :
-          <br />
-          <h5 style={{ padding: "15px" }}>
-            <label>
-              Select Range{" "}
-              <DateRangePicker
-                placeholder="Select Date"
-                onChange={(e) => {
-                  setMin(convert(e[0]));
-                  setMax(convert(e[1]));
-                }}
-              />
-            </label>
-          </h5>
-        </div> */}
-
         <div className="main__container">
           <div className="main__title">
             <PDFViewer style={styles.viewer}>
@@ -247,7 +277,7 @@ const ExportAchievement = () => {
                     .filter((item) => {
                       const selData = JSON.parse(item.type);
                       const hasSameObject = checkSameObject(selData, selected);
-                      return (hasSameObject  || selected.length==0)
+                      return hasSameObject || selected.length == 0;
                     })
                     .map((item) => {
                       return (

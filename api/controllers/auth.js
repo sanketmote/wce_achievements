@@ -1,6 +1,7 @@
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import notifyCtrl from "./activity.js";
 
 export const register = (req, res) => {
   //CHECK USER IF EXISTS
@@ -34,7 +35,13 @@ export const register = (req, res) => {
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json("User has been created.");
+      const q = "SELECT id FROM users WHERE username = ?";
+
+      db.query(q, [req.body.username], (err, data) => {
+        if (err) return res.status(500).json(err);
+        notifyCtrl.createNotify("New User Has joined to wce portal", data[0].id);
+        return res.status(200).json("User has been created.");
+      });
     });
   });
 };
@@ -62,7 +69,7 @@ export const login = (req, res) => {
       const token = jwt.sign({ id: data[0].id }, "secretkey");
 
       const { password, ...others } = data[0];
-      if(others.role==1){
+      if (others.role == 1) {
         others.roles = true;
       } else {
         others.roles = false;

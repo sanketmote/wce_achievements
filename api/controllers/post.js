@@ -10,10 +10,13 @@ export const getPosts = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    console.log(userId !== "undefined" );
+    console.log(userId !== "undefined");
 
     const q =
-      (userId == "undefined" || userId == undefined || userId == NULL || userId == "")
+      userId == "undefined" ||
+      userId == undefined ||
+      userId == NULL ||
+      userId == ""
         ? `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId) ORDER BY p.createdAt DESC`
         : `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId) WHERE p.userId = ? ORDER BY p.createdAt DESC`;
 
@@ -25,7 +28,7 @@ export const getPosts = (req, res) => {
         console.log(err);
         return res.status(500).json(err);
       }
-      console.log(q,data)
+      console.log(q, data);
       return res.status(200).json(data);
     });
   });
@@ -33,13 +36,13 @@ export const getPosts = (req, res) => {
 
 export const getCount = (req, res) => {
   const userId = req.query.userId;
-  var q = ""
-  if(userId == undefined || userId == NULL || userId == ""){
-      q = "SELECT count(*) as cnt FROM posts"
+  var q = "";
+  if (userId == undefined || userId == NULL || userId == "") {
+    q = "SELECT count(*) as cnt FROM posts";
   } else {
-      q = "SELECT count(p.*) as cnt , u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u WHERE p.userId = ?"
+    q =
+      "SELECT count(p.*) as cnt , u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u WHERE p.userId = ?";
   }
-  
 
   db.query(q, userId, (err, data) => {
     if (err) {
@@ -73,12 +76,21 @@ export const addPost = (req, res) => {
         req.body.outcome,
         req.body.obj,
         JSON.stringify(req.body.type),
-        req.body.award
+        req.body.award,
       ];
 
       db.query(q, [values], (err, data) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json("Post has been created.");
+        const q = "SELECT username FROM users WHERE id = ?";
+
+        db.query(q, [userInfo.id,], (err, data) => {
+          if (err) return res.status(500).json(err);
+          notifyCtrl.createNotify(
+            "New Post is posted by " + data[0].username,
+            userInfo.id,
+          );
+          return res.status(200).json("Post has been created.");
+        });
       });
     } catch (error) {
       console.log(error);

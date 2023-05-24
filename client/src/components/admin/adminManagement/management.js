@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./man.scss";
-import axios from "axios";
+import { makeRequest } from "../../../axios";
 
 const AdminManagement = () => {
   const [inputs, setInputs] = useState({
@@ -21,7 +21,7 @@ const AdminManagement = () => {
 
     try {
       inputs.role = 1;
-      await axios.post("https://wceback.loca.lt/api/auth/register", inputs).then((res)=>{
+      await makeRequest.post("/auth/register", inputs).then((res)=>{
             window.alert("Admin Added succefully ")
             window.location.reload()
       }).catch((err)=>{
