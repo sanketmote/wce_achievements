@@ -46,6 +46,13 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/likes", likeRoutes);
 app.use("/api/relationships", relationshipRoutes);
 
-app.listen(8800, () => {
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
+const ipAddress = '10.4.1.210';
+
+app.listen(8800, ipAddress,() => {
   console.log("API working!");
+console.log(`Server started at ${ipAddress}:8800`);
 });
