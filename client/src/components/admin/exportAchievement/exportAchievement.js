@@ -50,6 +50,7 @@ import {
   TablePagination,
 } from "@mui/material";
 import PdfTemplate2 from "./pdf2";
+import ReportTable from "./pdf3";
 
 const styles = StyleSheet.create({
   page: {
@@ -344,100 +345,102 @@ const ExportAchievement = () => {
         <div className="main__container">
           <div className="main__title">
             {valuef == "landscape format" ? (
-              <div id="downloadpdf" ref={reportTemplateRef}>
-                <p className="c4 c5 c32">
-                  <span className="c18 c6" />
-                </p>
-                <p className="c4">
-                  <span className="c28 c0">
-                    WCE (Achievements) Activity Report: 1
-                  </span>
-                  {/* <span className="c24">st</span>
-                  <span className="c28 c0">&nbsp;December 2019 to 01</span>
-                  <span className="c24">st</span>
-                  <span className="c0 c28">&nbsp;February 2020</span>
-                  <span className="c0 c30">
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;C
-                  </span> */}
-                  {/* <span className="c6 c30">Compiled by A.R. Surve &nbsp;</span> */}
-                </p>
-                <p className="c4 c5">
-                  <span className="c1" />
-                </p>
-                <a id="t.5e692b0a79874cffc2f2f9abd8345f9d88459598" />
-                <a id="t.0" />
-                <table className="c22">
-                  <tbody>
-                    {homePosts
-                      .filter((item) => {
-                        const selData = JSON.parse(item.type);
-                        const hasSameObject = checkSameObject(
-                          selData,
-                          selected
-                        );
-                        return hasSameObject || selected.length == 0;
-                      })
-                      .map((item, index) => {
-                        return (
-                          <PdfTemplate2
-                            id={index}
-                            name={item.teammate}
-                            area={item.area}
-                            description={item.desc + " at " + item.area}
-                            date={convert1(item.startDate)}
-                            link={JSON.parse(item.images)[0]}
-                          />
-                        );
-                      })}
-                  </tbody>
-                </table>
-                <p className="c16">
-                  <span className="c0">&nbsp;</span>
-                </p>
-                <p className="c4 c8 c5">
-                  <span className="c29 c6 c35" />
-                </p>
-                <div>
-                  <p className="c38" id="h.gjdgxs">
-                    <span className="c29 c6 c31">&nbsp;</span>
-                    <span
-                      style={{
-                        overflow: "hidden",
-                        display: "inline-block",
-                        margin: "0.00px 0.00px",
-                        border: "0.00px solid #000000",
-                        transform: "rotate(0.00rad) translateZ(0px)",
-                        WebkitTransform: "rotate(0.00rad) translateZ(0px)",
-                        width: "1124.27px",
-                        height: "6.60px",
-                      }}
-                    >
-                      <img
-                        alt=""
-                        src="images/image17.png"
-                        style={{
-                          width: "1124.27px",
-                          height: "6.60px",
-                          marginLeft: "0.00px",
-                          marginTop: "0.00px",
-                          transform: "rotate(0.00rad) translateZ(0px)",
-                          WebkitTransform: "rotate(0.00rad) translateZ(0px)",
-                        }}
-                        title
-                      />
-                    </span>
-                  </p>
-                  <p className="c17">
-                    <span className="c7 c21 c9">&nbsp;</span>
-                  </p>
-                  <p className="c17 c5">
-                    <span className="c7 c9 c21" />
-                  </p>
-                  <p className="c5 c37">
-                    <span className="c7 c21 c9" />
-                  </p>
-                </div>
-              </div>
+               <PDFViewer style={styles.viewer}><ReportTable data={homePosts} /></PDFViewer>
+              
+              // <div id="downloadpdf" ref={reportTemplateRef}>
+              //   <p className="c4 c5 c32">
+              //     <span className="c18 c6" />
+              //   </p>
+              //   <p className="c4">
+              //     <span className="c28 c0">
+              //       WCE (Achievements) Activity Report: 1
+              //     </span>
+              //     {/* <span className="c24">st</span>
+              //     <span className="c28 c0">&nbsp;December 2019 to 01</span>
+              //     <span className="c24">st</span>
+              //     <span className="c0 c28">&nbsp;February 2020</span>
+              //     <span className="c0 c30">
+              //       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;C
+              //     </span> */}
+              //     {/* <span className="c6 c30">Compiled by A.R. Surve &nbsp;</span> */}
+              //   </p>
+              //   <p className="c4 c5">
+              //     <span className="c1" />
+              //   </p>
+              //   <a id="t.5e692b0a79874cffc2f2f9abd8345f9d88459598" />
+              //   <a id="t.0" />
+              //   <table className="c22">
+              //     <tbody>
+              //       {homePosts
+              //         .filter((item) => {
+              //           const selData = JSON.parse(item.type);
+              //           const hasSameObject = checkSameObject(
+              //             selData,
+              //             selected
+              //           );
+              //           return hasSameObject || selected.length == 0;
+              //         })
+              //         .map((item, index) => {
+              //           return (
+              //             <PdfTemplate2
+              //               id={index}
+              //               name={item.teammate}
+              //               area={item.area}
+              //               description={item.desc + " at " + item.area}
+              //               date={convert1(item.startDate)}
+              //               link={JSON.parse(item.images)[0]}
+              //             />
+              //           );
+              //         })}
+              //     </tbody>
+              //   </table>
+              //   <p className="c16">
+              //     <span className="c0">&nbsp;</span>
+              //   </p>
+              //   <p className="c4 c8 c5">
+              //     <span className="c29 c6 c35" />
+              //   </p>
+              //   <div>
+              //     <p className="c38" id="h.gjdgxs">
+              //       <span className="c29 c6 c31">&nbsp;</span>
+              //       <span
+              //         style={{
+              //           overflow: "hidden",
+              //           display: "inline-block",
+              //           margin: "0.00px 0.00px",
+              //           border: "0.00px solid #000000",
+              //           transform: "rotate(0.00rad) translateZ(0px)",
+              //           WebkitTransform: "rotate(0.00rad) translateZ(0px)",
+              //           width: "1124.27px",
+              //           height: "6.60px",
+              //         }}
+              //       >
+              //         <img
+              //           alt=""
+              //           src="images/image17.png"
+              //           style={{
+              //             width: "1124.27px",
+              //             height: "6.60px",
+              //             marginLeft: "0.00px",
+              //             marginTop: "0.00px",
+              //             transform: "rotate(0.00rad) translateZ(0px)",
+              //             WebkitTransform: "rotate(0.00rad) translateZ(0px)",
+              //           }}
+              //           title
+              //         />
+              //       </span>
+              //     </p>
+              //     <p className="c17">
+              //       <span className="c7 c21 c9">&nbsp;</span>
+              //     </p>
+              //     <p className="c17 c5">
+              //       <span className="c7 c9 c21" />
+              //     </p>
+              //     <p className="c5 c37">
+              //       <span className="c7 c21 c9" />
+              //     </p>
+              //   </div>
+              // </div>
             ) : (
               <PDFViewer style={styles.viewer}>
                 <Document>
@@ -457,7 +460,7 @@ const ExportAchievement = () => {
                           <Body
                             name={item.teammate}
                             description={item.desc + " at " + item.area}
-                            date={convert1(item.startDate)}
+                            date={(new Date(item.startDate)).toUTCString()}
                             link={JSON.parse(item.images)[0]}
                           />
                         );
