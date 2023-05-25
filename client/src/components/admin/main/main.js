@@ -11,6 +11,9 @@ const Main = () => {
   const [admin, setadmin] = useState({
     total_users: 0,
     total_posts: 0,
+    total_vposts: 0,
+    total_ppost: 0,
+    total_rpost: 0,
     total_comments: 0,
     total_likes: 0,
     total_active_users: 0,
@@ -24,13 +27,17 @@ const Main = () => {
         return res.data[0];
       });
       console.log(data);
-      setadmin((prev) => ({ ...prev,total_users: data.cnt }));
+      setadmin((prev) => ({ ...prev, total_users: data.cnt }));
       // get posts couint
       data = await makeRequest.get("/posts/count/").then((res) => {
-        return res.data[0];
+        return res.data;
       });
       console.log("posts", data);
-      setadmin((prev) => ({ ...prev, total_posts: data.cnt }));
+      setadmin((prev) => ({ ...prev, total_posts: data.total }));
+      setadmin((prev) => ({ ...prev, total_ppost: data.pend }));
+      setadmin((prev) => ({ ...prev, total_rpost: data.rej }));
+      setadmin((prev) => ({ ...prev, total_vposts: data.acc }));
+
       // get comments count
       data = await makeRequest.get("/comments/count/").then((res) => {
         return res.data;
@@ -42,7 +49,7 @@ const Main = () => {
         return res.data;
       });
       console.log("likes", data);
-      setadmin((prev) => ({ ...prev,total_likes: data }));
+      setadmin((prev) => ({ ...prev, total_likes: data }));
       // console.log(admin)
       setLoading(false);
     } catch (err) {
@@ -117,9 +124,29 @@ const Main = () => {
               <div className="card_admin">
                 <i className="fa fa-ban fa-2x text-red" aria-hidden="true"></i>
                 <div className="card_inner_admin">
-                  <p className="text-primary-p">Reported Posts</p>
+                  <p className="text-primary-p">Rejected Posts</p>
                   <span className="font-bold text-title">
-                    {admin.total_likes}
+                    {admin.total_rpost}
+                  </span>
+                </div>
+              </div>
+
+              <div className="card_admin">
+                <i className="fa fa-ban fa-2x text-red" aria-hidden="true"></i>
+                <div className="card_inner_admin">
+                  <p className="text-primary-p">Verified Posts</p>
+                  <span className="font-bold text-title">
+                    {admin.total_vposts}
+                  </span>
+                </div>
+              </div>
+
+              <div className="card_admin">
+                <i className="fa fa-ban fa-2x text-red" aria-hidden="true"></i>
+                <div className="card_inner_admin">
+                  <p className="text-primary-p">Non Verified Posts</p>
+                  <span className="font-bold text-title">
+                    {admin.total_ppost}
                   </span>
                 </div>
               </div>
