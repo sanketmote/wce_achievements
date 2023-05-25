@@ -24,6 +24,7 @@ const Carousel = ({ images, id }) => {
             key={index}
             className={`carousel-item ${isActive(index)}`}
             style={{ height: "400px" }}
+            id={`image${id}`}
           >
             <img
               style={{ objectFit: "contain", height: "100%", width: "100%" }}

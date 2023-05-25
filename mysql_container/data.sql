@@ -19,6 +19,20 @@
 CREATE DATABASE IF NOT EXISTS `social` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `social`;
 
+-- Dumping structure for table social.activitis
+CREATE TABLE IF NOT EXISTS `activitis` (
+  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `createdAt` date DEFAULT NULL,
+  `userid` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FK__users` (`userid`),
+  CONSTRAINT `FK__users` FOREIGN KEY (`userid`) REFERENCES `users` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table social.activitis: ~0 rows (approximately)
+
 -- Dumping structure for table social.comments
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -63,18 +77,23 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   `teammate` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `outcome` varchar(500) DEFAULT NULL,
+  `obj` varchar(500) DEFAULT NULL,
+  `type` varchar(1000) DEFAULT NULL,
+  `award` varchar(100) DEFAULT NULL,
+  `verified` int NOT NULL DEFAULT '0',
+  `status` int NOT NULL DEFAULT '2',
+  `admres` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `userid` (`userid`),
   CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table social.posts: ~1 rows (approximately)
-INSERT INTO `posts` (`id`, `desc`, `area`, `startDate`, `endDate`, `images`, `userid`, `createdAt`, `updatedAt`, `teammate`) VALUES
-	(9, 'sad f ', 'fev', '2023-05-02T07:00:00.000Z', '2023-05-11T07:00:00.000Z', '["https://res.cloudinary.com/dcnzisojf/image/upload/v1683050929/test5654.png","https://res.cloudinary.com/dcnzisojf/image/upload/v1683050930/test9625.png"]', 2, '2023-05-02 11:09:56', NULL, 'S M'),
-	(10, 'Presented', 'fev', '2023-05-02T07:00:00.000Z', '2023-05-19T07:00:00.000Z', '["https://res.cloudinary.com/dcnzisojf/image/upload/v1683052327/test7198.png","https://res.cloudinary.com/dcnzisojf/image/upload/v1683052328/test3287.png","https://res.cloudinary.com/dcnzisojf/image/upload/v1683052329/test1300.png"]', 2, '2023-05-02 11:33:16', NULL, 'gtrg'),
-	(11, 'sample', 'WCE Sangli', '2023-05-02T07:00:00.000Z', '2023-06-02T07:00:00.000Z', '["https://res.cloudinary.com/dcnzisojf/image/upload/v1683183629/test3472.png"]', 4, '2023-05-04 00:00:29', NULL, 'Aniket'),
-	(12, 'Presented in res', 'wce', '2023-05-04T07:00:00.000Z', '2023-05-12T07:00:00.000Z', '["Error in Uploading images","Error in Uploading images","Error in Uploading images"]', 4, '2023-05-04 00:54:26', NULL, 'Aniket');
+-- Dumping data for table social.posts: ~2 rows (approximately)
+INSERT INTO `posts` (`id`, `desc`, `area`, `startDate`, `endDate`, `images`, `userid`, `createdAt`, `updatedAt`, `teammate`, `outcome`, `obj`, `type`, `award`, `verified`, `status`, `admres`) VALUES
+	(13, 'Presented', 'wce', '2023-05-17T07:00:00.000Z', '2023-06-19T07:00:00.000Z', '["https://res.cloudinary.com/dcnzisojf/image/upload/v1684916571/test3341.png"]', 2, '2023-05-24 01:22:52', NULL, 'Aniket', '', '', '[{"label":"Sports Achievements","value":"sport"},{"label":"Academic Achievements","value":"edu"}]', '', 0, 2, NULL),
+	(14, 'Preseted', 'wce', '2023-06-02T07:00:00.000Z', '2023-07-05T07:00:00.000Z', '["https://res.cloudinary.com/dcnzisojf/image/upload/v1684932367/test7272.png"]', 4, '2023-05-24 05:46:08', NULL, 'Aniket', '', '', '[{"label":"Sports Achievements","value":"sport"},{"label":"Research and Innovation","value":"res"}]', '', 1, 1, '');
 
 -- Dumping structure for table social.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -92,14 +111,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `id` (`id`) USING BTREE,
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table social.users: ~4 rows (approximately)
+-- Dumping data for table social.users: ~7 rows (approximately)
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `name`, `converPic`, `profilePic`, `city`, `website`, `role`) VALUES
 	(1, 'sanketmote', 'sanketmote99@gmail.com', '$2a$10$/cCjRk2NbsFAgHESouDOxOUZkBRdPXObTb17/m5.TEseJvOBBHvLi', 'sanket mote', NULL, NULL, NULL, NULL, 2),
 	(2, 'user', 'user@gmail.com', '$2a$10$YgSuBCulQw2GmbBCVX5Ue.OKzuvJdHmmaxXSWLldjFiOB77hMdq/W', 'S M', NULL, NULL, NULL, NULL, 1),
 	(3, 'admin', 'admin@gmail.com', '$2a$10$8Kl0zq49i9AuAn44rCtek.6EKjbrJPzKbyLhriKmv/BQcAGQsbJ/e', 'Admin', NULL, NULL, NULL, NULL, 1),
-	(4, 'aniket', 'vyawahareaniket2@gmail.com', '$2a$10$lg53qCHkTbl5kV.s2LsKrOjwkYu70VNP7oY.6BeKePME2x5y7sxBi', 'Aniket', NULL, NULL, NULL, NULL, 2);
+	(4, 'aniket', 'vyawahareaniket2@gmail.com', '$2a$10$lg53qCHkTbl5kV.s2LsKrOjwkYu70VNP7oY.6BeKePME2x5y7sxBi', 'Aniket', NULL, NULL, NULL, NULL, 2),
+	(5, '', '', '$2a$10$0D1Oa4VZbLyAj29KJmPZbumTJmDr74H46YHrYsf082b7yWw7XORg.', '', NULL, NULL, NULL, NULL, 2),
+	(6, 'ok', 'ok@gmail.com', '$2a$10$mV4yiMu8w8Pa5txWDUD/RO40kMJk.4AZ4AIygxRVqzEAC8rxF8Os2', 'ok', NULL, NULL, NULL, NULL, 2),
+	(7, 'mk', 'mmk@gmail.com', '$2a$10$nvxYSu8hCnQl2lyI4o71UuLprJ5bHsHxCiBPrjTO6mwV3XBzFHWO.', 'mk', NULL, NULL, NULL, NULL, 2);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

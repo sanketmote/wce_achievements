@@ -14,8 +14,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
 import Image from "../profileImage/image";
 import Carousel from "./imageCrads";
-
-const Post = ({ post }) => {
+import InputComment from "./verifyButton"
+const Post = ({ post, key, admin = 0 }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -92,35 +92,38 @@ const Post = ({ post }) => {
           <p>Event Place : {post.area}</p>
           <br />
           <p>Event Date : {post.startDate}</p>
-          {(JSON.parse(post.images)).length > 0 && (
+          {JSON.parse(post.images).length > 0 && (
             <Carousel images={JSON.parse(post.images)} id={post.id} />
           )}
-          Carousel
         </div>
 
-        <div className="info">
-          <div className="item">
-            {isLoading ? (
-              "loading"
-            ) : data.includes(currentUser.id) ? (
-              <FavoriteOutlinedIcon
-                style={{ color: "red" }}
-                onClick={handleLike}
-              />
-            ) : (
-              <FavoriteBorderOutlinedIcon onClick={handleLike} />
-            )}
-            {data?.length} Likes
+        {admin == 1 ? (
+          <InputComment post={post} />
+        ) : (
+          <div className="info">
+            <div className="item">
+              {isLoading ? (
+                "loading"
+              ) : data.includes(currentUser.id) ? (
+                <FavoriteOutlinedIcon
+                  style={{ color: "red" }}
+                  onClick={handleLike}
+                />
+              ) : (
+                <FavoriteBorderOutlinedIcon onClick={handleLike} />
+              )}
+              {data?.length} Likes
+            </div>
+            <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
+              <TextsmsOutlinedIcon />
+              See Comments
+            </div>
+            <div className="item">
+              <ShareOutlinedIcon />
+              Share
+            </div>
           </div>
-          <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
-            <TextsmsOutlinedIcon />
-            See Comments
-          </div>
-          <div className="item">
-            <ShareOutlinedIcon />
-            Share
-          </div>
-        </div>
+        )}
         {commentOpen && <Comments postId={post.id} />}
       </div>
     </div>
