@@ -41,18 +41,45 @@ export const getCount = (req, res) => {
   var q = "";
   if (userId == undefined || userId == NULL || userId == "") {
     q = "SELECT count(*) as cnt FROM posts";
+    const q1 = "SELECT count(*) as cnt FROM posts where status = 0";
+    const q2 = "SELECT count(*) as cnt FROM posts where status = 2";
+    const q3 = "SELECT count(*) as cnt FROM posts where status = 1";
+    db.query(q, (err, total) => {
+      console.log(total);
+      if (err) return res.status(500).json(err);
+      db.query(q1, (err, tst) => {
+        console.log(tst);
+        if (err) return res.status(500).json(err);
+        db.query(q2, (err, tst1) => {
+          if (err) return res.status(500).json(err);
+          // return res.json(data);
+          console.log(tst1);
+          db.query(q3, (err, tst2) => {
+            if (err) return res.status(500).json(err);
+            console.log(tst2);
+            return res.json({
+              total: total[0].cnt,
+              rej: tst[0].cnt,
+              pend: tst1[0].cnt,
+              acc: tst2[0].cnt,
+            });
+          });
+        });
+        // return res.json(data);
+      });
+      // return res.json(data);
+    });
   } else {
     q =
       "SELECT count(p.*) as cnt , u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u WHERE p.userId = ?";
+    db.query(q, userId, (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json(err);
+      }
+      return res.status(200).json(data);
+    });
   }
-
-  db.query(q, userId, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json(err);
-    }
-    return res.status(200).json(data);
-  });
 };
 
 export const addPost = (req, res) => {
