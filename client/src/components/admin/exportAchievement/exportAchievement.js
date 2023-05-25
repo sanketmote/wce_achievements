@@ -236,7 +236,7 @@ const ExportAchievement = () => {
             // justifyContent="space-between"
             mb={5}
           >
-            <Autocomplete
+            {/* <Autocomplete
               sx={{ width: 280 }}
               autoHighlight
               popupIcon={null}
@@ -255,29 +255,20 @@ const ExportAchievement = () => {
                   onChange={setSelected}
                   labelledBy="Select Achievement Type"
                 />
-                // <TextField
-                //   {...params}
-                //   placeholder="Search Category ..."
-                //   // onChange={fetchSuggestions}
-                //   InputProps={{
-                //     ...params.InputProps,
-                //     startAdornment: (
-                //       <InputAdornment position="start">
-                //         {/* <Iconify
-                //           icon={"eva:search-fill"}
-                //           sx={{
-                //             ml: 1,
-                //             width: 20,
-                //             height: 20,
-                //             color: "text.disabled",
-                //           }}
-                //         /> */}
-                //       </InputAdornment>
-                //     ),
-                //   }}
-                // />
+                
               )}
+            /> */}
+            <MultiSelect
+              // sx={{ width: 280 }}
+              style={{width:280}}
+              key={5}
+              isMulti
+              options={options}
+              value={selected}
+              onChange={setSelected}
+              labelledBy="Select Achievement Type"
             />
+
             <StyledRoot
               sx={{
                 color: "primary.main",
@@ -345,8 +336,8 @@ const ExportAchievement = () => {
         <div className="main__container">
           <div className="main__title">
             {valuef == "landscape format" ? (
-               <PDFViewer style={styles.viewer}><ReportTable data={homePosts} /></PDFViewer>
-              
+              <PDFViewer style={styles.viewer}><ReportTable data={homePosts} /></PDFViewer>
+
               // <div id="downloadpdf" ref={reportTemplateRef}>
               //   <p className="c4 c5 c32">
               //     <span className="c18 c6" />
