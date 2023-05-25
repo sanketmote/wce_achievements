@@ -14,10 +14,24 @@ export const getUser = (req, res) => {
 
 export const getCount = (req, res) => {
   const q = "SELECT count(*) as cnt FROM users";
-
-  db.query(q, (err, data) => {
+  const q1 = "SELECT count(*) as cnt FROM users where status = 0";
+  const q2 = "SELECT count(*) as cnt FROM users where status = 2";
+  const q3 = "SELECT count(*) as cnt FROM users where status = 1";
+  db.query(q, (err, total) => {
     if (err) return res.status(500).json(err);
-    return res.json(data);
+    db.query(q1, (err, tst) => {
+      if (err) return res.status(500).json(err);
+      db.query(q2, (err, tst1) => {
+        if (err) return res.status(500).json(err);
+        // return res.json(data);
+        db.query(q3, (err, tst2) => {
+          if (err) return res.status(500).json(err);
+          return res.json({total:total.data[0].cnt,rej:tst.data[0].cnt,pend:tst1.data[0].cnt,acc:tst2.data[0].cnt});
+        });
+      });
+      // return res.json(data);
+    });
+    // return res.json(data);
   });
 };
 
